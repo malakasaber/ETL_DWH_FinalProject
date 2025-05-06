@@ -11,8 +11,8 @@
   DTS:LocaleID="1033"
   DTS:ObjectName="01_DWH_Load_STG"
   DTS:PackageType="5"
-  DTS:VersionBuild="2"
-  DTS:VersionGUID="{9DAE3F9D-5D12-42D2-9AF6-C61918CEBB96}">
+  DTS:VersionBuild="3"
+  DTS:VersionGUID="{DB47A1D6-637E-459A-83CB-31E0CB90B150}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -3067,6 +3067,627 @@
       </DTS:ObjectData>
     </DTS:Executable>
     <DTS:Executable
+      DTS:refId="Package\load_Sales_STG"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{823fb4d6-b5c6-4012-8ab2-e6724b1bcdeb}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="load_Sales_STG"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\load_Sales_STG\Derived Column"
+              componentClassID="Microsoft.DerivedColumn"
+              contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+              name="Derived Column"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\load_Sales_STG\Derived Column.Inputs[Derived Column Input]"
+                  description="Input to the Derived Column Transformation"
+                  name="Derived Column Input">
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\load_Sales_STG\Derived Column.Outputs[Derived Column Output]"
+                  description="Default Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  name="Derived Column Output"
+                  synchronousInputId="Package\load_Sales_STG\Derived Column.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\load_Sales_STG\Derived Column.Outputs[Derived Column Output].Columns[ExtractDate]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\load_Sales_STG\Derived Column.Outputs[Derived Column Output].Columns[ExtractDate]"
+                      name="ExtractDate"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">[GETDATE]()</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">GETDATE()</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\load_Sales_STG\Derived Column.Outputs[Derived Column Output].Columns[SourceSystem]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      length="12"
+                      lineageId="Package\load_Sales_STG\Derived Column.Outputs[Derived Column Output].Columns[SourceSystem]"
+                      name="SourceSystem"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">"GroxerySales"</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">"GroxerySales"</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\load_Sales_STG\Derived Column.Outputs[Derived Column Error Output]"
+                  description="Error Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Derived Column Error Output"
+                  synchronousInputId="Package\load_Sales_STG\Derived Column.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\load_Sales_STG\Derived Column.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\load_Sales_STG\Derived Column.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\load_Sales_STG\Derived Column.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\load_Sales_STG\Derived Column.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\load_Sales_STG\OLE DB Destination"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="OLE DB Destination"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[STG_Sales]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\load_Sales_STG\OLE DB Destination.Connections[OleDbConnection]"
+                  connectionManagerID="{C3BF8CBA-2D20-406F-8972-3705ADA21205}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[GrocerySales_STG]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\load_Sales_STG\OLE DB Destination.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\load_Sales_STG\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[CustomerID]"
+                      cachedDataType="i4"
+                      cachedName="CustomerID"
+                      externalMetadataColumnId="Package\load_Sales_STG\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[CustomerID]"
+                      lineageId="Package\load_Sales_STG\OLE DB Source.Outputs[OLE DB Source Output].Columns[CustomerID]" />
+                    <inputColumn
+                      refId="Package\load_Sales_STG\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[ExtractDate]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="ExtractDate"
+                      externalMetadataColumnId="Package\load_Sales_STG\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ExtractDate]"
+                      lineageId="Package\load_Sales_STG\Derived Column.Outputs[Derived Column Output].Columns[ExtractDate]" />
+                    <inputColumn
+                      refId="Package\load_Sales_STG\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[SourceSystem]"
+                      cachedDataType="wstr"
+                      cachedLength="12"
+                      cachedName="SourceSystem"
+                      externalMetadataColumnId="Package\load_Sales_STG\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[SourceSystem]"
+                      lineageId="Package\load_Sales_STG\Derived Column.Outputs[Derived Column Output].Columns[SourceSystem]" />
+                    <inputColumn
+                      refId="Package\load_Sales_STG\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[SalesID]"
+                      cachedDataType="i4"
+                      cachedName="SalesID"
+                      externalMetadataColumnId="Package\load_Sales_STG\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[SalesID]"
+                      lineageId="Package\load_Sales_STG\OLE DB Source.Outputs[OLE DB Source Output].Columns[SalesID]" />
+                    <inputColumn
+                      refId="Package\load_Sales_STG\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[SalesPersonID]"
+                      cachedDataType="i4"
+                      cachedName="SalesPersonID"
+                      externalMetadataColumnId="Package\load_Sales_STG\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[SalesPersonID]"
+                      lineageId="Package\load_Sales_STG\OLE DB Source.Outputs[OLE DB Source Output].Columns[SalesPersonID]" />
+                    <inputColumn
+                      refId="Package\load_Sales_STG\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[ProductID]"
+                      cachedDataType="i4"
+                      cachedName="ProductID"
+                      externalMetadataColumnId="Package\load_Sales_STG\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ProductID]"
+                      lineageId="Package\load_Sales_STG\OLE DB Source.Outputs[OLE DB Source Output].Columns[ProductID]" />
+                    <inputColumn
+                      refId="Package\load_Sales_STG\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Quantity]"
+                      cachedDataType="i4"
+                      cachedName="Quantity"
+                      externalMetadataColumnId="Package\load_Sales_STG\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Quantity]"
+                      lineageId="Package\load_Sales_STG\OLE DB Source.Outputs[OLE DB Source Output].Columns[Quantity]" />
+                    <inputColumn
+                      refId="Package\load_Sales_STG\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Discount]"
+                      cachedDataType="numeric"
+                      cachedName="Discount"
+                      cachedPrecision="5"
+                      cachedScale="2"
+                      externalMetadataColumnId="Package\load_Sales_STG\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Discount]"
+                      lineageId="Package\load_Sales_STG\OLE DB Source.Outputs[OLE DB Source Output].Columns[Discount]" />
+                    <inputColumn
+                      refId="Package\load_Sales_STG\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[TotalPrice]"
+                      cachedDataType="numeric"
+                      cachedName="TotalPrice"
+                      cachedPrecision="10"
+                      cachedScale="2"
+                      externalMetadataColumnId="Package\load_Sales_STG\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[TotalPrice]"
+                      lineageId="Package\load_Sales_STG\OLE DB Source.Outputs[OLE DB Source Output].Columns[TotalPrice]" />
+                    <inputColumn
+                      refId="Package\load_Sales_STG\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[SalesDate]"
+                      cachedDataType="wstr"
+                      cachedLength="10"
+                      cachedName="SalesDate"
+                      externalMetadataColumnId="Package\load_Sales_STG\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[SalesDate]"
+                      lineageId="Package\load_Sales_STG\OLE DB Source.Outputs[OLE DB Source Output].Columns[SalesDate]" />
+                    <inputColumn
+                      refId="Package\load_Sales_STG\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[TransactionNumber]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="TransactionNumber"
+                      externalMetadataColumnId="Package\load_Sales_STG\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[TransactionNumber]"
+                      lineageId="Package\load_Sales_STG\OLE DB Source.Outputs[OLE DB Source Output].Columns[TransactionNumber]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\load_Sales_STG\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[CustomerID]"
+                      dataType="i4"
+                      name="CustomerID" />
+                    <externalMetadataColumn
+                      refId="Package\load_Sales_STG\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ExtractDate]"
+                      dataType="dbTimeStamp"
+                      name="ExtractDate" />
+                    <externalMetadataColumn
+                      refId="Package\load_Sales_STG\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[SourceSystem]"
+                      dataType="wstr"
+                      length="50"
+                      name="SourceSystem" />
+                    <externalMetadataColumn
+                      refId="Package\load_Sales_STG\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[SalesID]"
+                      dataType="i4"
+                      name="SalesID" />
+                    <externalMetadataColumn
+                      refId="Package\load_Sales_STG\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[SalesPersonID]"
+                      dataType="i4"
+                      name="SalesPersonID" />
+                    <externalMetadataColumn
+                      refId="Package\load_Sales_STG\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ProductID]"
+                      dataType="i4"
+                      name="ProductID" />
+                    <externalMetadataColumn
+                      refId="Package\load_Sales_STG\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Quantity]"
+                      dataType="i4"
+                      name="Quantity" />
+                    <externalMetadataColumn
+                      refId="Package\load_Sales_STG\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Discount]"
+                      dataType="numeric"
+                      name="Discount"
+                      precision="5"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\load_Sales_STG\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[TotalPrice]"
+                      dataType="numeric"
+                      name="TotalPrice"
+                      precision="10"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\load_Sales_STG\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[SalesDate]"
+                      dataType="wstr"
+                      length="10"
+                      name="SalesDate" />
+                    <externalMetadataColumn
+                      refId="Package\load_Sales_STG\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[TransactionNumber]"
+                      dataType="wstr"
+                      length="50"
+                      name="TransactionNumber" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\load_Sales_STG\OLE DB Destination.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\load_Sales_STG\OLE DB Destination.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\load_Sales_STG\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\load_Sales_STG\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\load_Sales_STG\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\load_Sales_STG\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\load_Sales_STG\OLE DB Source"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="OLE DB Source"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[Sales]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">0</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\load_Sales_STG\OLE DB Source.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[LocalHost.GroxerySales]"
+                  connectionManagerRefId="Package.ConnectionManagers[LocalHost.GroxerySales]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\load_Sales_STG\OLE DB Source.Outputs[OLE DB Source Output]"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\load_Sales_STG\OLE DB Source.Outputs[OLE DB Source Output].Columns[CustomerID]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\load_Sales_STG\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CustomerID]"
+                      lineageId="Package\load_Sales_STG\OLE DB Source.Outputs[OLE DB Source Output].Columns[CustomerID]"
+                      name="CustomerID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\load_Sales_STG\OLE DB Source.Outputs[OLE DB Source Output].Columns[SalesID]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\load_Sales_STG\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[SalesID]"
+                      lineageId="Package\load_Sales_STG\OLE DB Source.Outputs[OLE DB Source Output].Columns[SalesID]"
+                      name="SalesID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\load_Sales_STG\OLE DB Source.Outputs[OLE DB Source Output].Columns[SalesPersonID]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\load_Sales_STG\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[SalesPersonID]"
+                      lineageId="Package\load_Sales_STG\OLE DB Source.Outputs[OLE DB Source Output].Columns[SalesPersonID]"
+                      name="SalesPersonID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\load_Sales_STG\OLE DB Source.Outputs[OLE DB Source Output].Columns[ProductID]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\load_Sales_STG\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ProductID]"
+                      lineageId="Package\load_Sales_STG\OLE DB Source.Outputs[OLE DB Source Output].Columns[ProductID]"
+                      name="ProductID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\load_Sales_STG\OLE DB Source.Outputs[OLE DB Source Output].Columns[Quantity]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\load_Sales_STG\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[Quantity]"
+                      lineageId="Package\load_Sales_STG\OLE DB Source.Outputs[OLE DB Source Output].Columns[Quantity]"
+                      name="Quantity"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\load_Sales_STG\OLE DB Source.Outputs[OLE DB Source Output].Columns[Discount]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\load_Sales_STG\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[Discount]"
+                      lineageId="Package\load_Sales_STG\OLE DB Source.Outputs[OLE DB Source Output].Columns[Discount]"
+                      name="Discount"
+                      precision="5"
+                      scale="2"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\load_Sales_STG\OLE DB Source.Outputs[OLE DB Source Output].Columns[TotalPrice]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\load_Sales_STG\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[TotalPrice]"
+                      lineageId="Package\load_Sales_STG\OLE DB Source.Outputs[OLE DB Source Output].Columns[TotalPrice]"
+                      name="TotalPrice"
+                      precision="10"
+                      scale="2"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\load_Sales_STG\OLE DB Source.Outputs[OLE DB Source Output].Columns[SalesDate]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\load_Sales_STG\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[SalesDate]"
+                      length="10"
+                      lineageId="Package\load_Sales_STG\OLE DB Source.Outputs[OLE DB Source Output].Columns[SalesDate]"
+                      name="SalesDate"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\load_Sales_STG\OLE DB Source.Outputs[OLE DB Source Output].Columns[TransactionNumber]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\load_Sales_STG\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[TransactionNumber]"
+                      length="50"
+                      lineageId="Package\load_Sales_STG\OLE DB Source.Outputs[OLE DB Source Output].Columns[TransactionNumber]"
+                      name="TransactionNumber"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\load_Sales_STG\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CustomerID]"
+                      dataType="i4"
+                      name="CustomerID" />
+                    <externalMetadataColumn
+                      refId="Package\load_Sales_STG\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[SalesID]"
+                      dataType="i4"
+                      name="SalesID" />
+                    <externalMetadataColumn
+                      refId="Package\load_Sales_STG\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[SalesPersonID]"
+                      dataType="i4"
+                      name="SalesPersonID" />
+                    <externalMetadataColumn
+                      refId="Package\load_Sales_STG\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ProductID]"
+                      dataType="i4"
+                      name="ProductID" />
+                    <externalMetadataColumn
+                      refId="Package\load_Sales_STG\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[Quantity]"
+                      dataType="i4"
+                      name="Quantity" />
+                    <externalMetadataColumn
+                      refId="Package\load_Sales_STG\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[Discount]"
+                      dataType="numeric"
+                      name="Discount"
+                      precision="5"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\load_Sales_STG\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[TotalPrice]"
+                      dataType="numeric"
+                      name="TotalPrice"
+                      precision="10"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\load_Sales_STG\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[SalesDate]"
+                      dataType="wstr"
+                      length="10"
+                      name="SalesDate" />
+                    <externalMetadataColumn
+                      refId="Package\load_Sales_STG\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[TransactionNumber]"
+                      dataType="wstr"
+                      length="50"
+                      name="TransactionNumber" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\load_Sales_STG\OLE DB Source.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\load_Sales_STG\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[SalesID]"
+                      dataType="i4"
+                      lineageId="Package\load_Sales_STG\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[SalesID]"
+                      name="SalesID" />
+                    <outputColumn
+                      refId="Package\load_Sales_STG\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[SalesPersonID]"
+                      dataType="i4"
+                      lineageId="Package\load_Sales_STG\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[SalesPersonID]"
+                      name="SalesPersonID" />
+                    <outputColumn
+                      refId="Package\load_Sales_STG\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CustomerID]"
+                      dataType="i4"
+                      lineageId="Package\load_Sales_STG\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CustomerID]"
+                      name="CustomerID" />
+                    <outputColumn
+                      refId="Package\load_Sales_STG\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ProductID]"
+                      dataType="i4"
+                      lineageId="Package\load_Sales_STG\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ProductID]"
+                      name="ProductID" />
+                    <outputColumn
+                      refId="Package\load_Sales_STG\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[Quantity]"
+                      dataType="i4"
+                      lineageId="Package\load_Sales_STG\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[Quantity]"
+                      name="Quantity" />
+                    <outputColumn
+                      refId="Package\load_Sales_STG\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[Discount]"
+                      dataType="numeric"
+                      lineageId="Package\load_Sales_STG\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[Discount]"
+                      name="Discount"
+                      precision="5"
+                      scale="2" />
+                    <outputColumn
+                      refId="Package\load_Sales_STG\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[TotalPrice]"
+                      dataType="numeric"
+                      lineageId="Package\load_Sales_STG\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[TotalPrice]"
+                      name="TotalPrice"
+                      precision="10"
+                      scale="2" />
+                    <outputColumn
+                      refId="Package\load_Sales_STG\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[SalesDate]"
+                      dataType="wstr"
+                      length="10"
+                      lineageId="Package\load_Sales_STG\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[SalesDate]"
+                      name="SalesDate" />
+                    <outputColumn
+                      refId="Package\load_Sales_STG\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[TransactionNumber]"
+                      dataType="wstr"
+                      length="50"
+                      lineageId="Package\load_Sales_STG\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[TransactionNumber]"
+                      name="TransactionNumber" />
+                    <outputColumn
+                      refId="Package\load_Sales_STG\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\load_Sales_STG\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\load_Sales_STG\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\load_Sales_STG\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\load_Sales_STG.Paths[Derived Column Output]"
+              endId="Package\load_Sales_STG\OLE DB Destination.Inputs[OLE DB Destination Input]"
+              name="Derived Column Output"
+              startId="Package\load_Sales_STG\Derived Column.Outputs[Derived Column Output]" />
+            <path
+              refId="Package\load_Sales_STG.Paths[OLE DB Source Output]"
+              endId="Package\load_Sales_STG\Derived Column.Inputs[Derived Column Input]"
+              name="OLE DB Source Output"
+              startId="Package\load_Sales_STG\OLE DB Source.Outputs[OLE DB Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
       DTS:refId="Package\Truncate_All_STG"
       DTS:CreationName="Microsoft.ExecuteSQLTask"
       DTS:Description="Execute SQL Task"
@@ -3133,6 +3754,14 @@
       DTS:LogicalAnd="True"
       DTS:ObjectName="Constraint 5"
       DTS:To="Package\load_Country_STG" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 6]"
+      DTS:CreationName=""
+      DTS:DTSID="{A08838AE-1FBE-4A16-B95A-94CE0A097137}"
+      DTS:From="Package\Truncate_All_STG"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 6"
+      DTS:To="Package\load_Sales_STG" />
   </DTS:PrecedenceConstraints>
   <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
 <!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
@@ -3153,53 +3782,53 @@
         <NodeLayout
           Size="171.2,41.6"
           Id="Package\load_Category_STG"
-          TopLeft="426.428572208602,193.823529294463" />
+          TopLeft="505.714286663095,321.529411535465" />
         <NodeLayout
           Size="173.6,41.6"
           Id="Package\load_Customer_STG"
-          TopLeft="60,60" />
+          TopLeft="26.4285713571067,103.588235255911" />
         <NodeLayout
           Size="147.2,41.6"
           Id="Package\load_Ciry_STG"
-          TopLeft="570.000001085656,130.352941114803" />
+          TopLeft="615.685715412425,183.882352832589" />
         <NodeLayout
           Size="174.4,41.6"
           Id="Package\load_Employee_STG"
-          TopLeft="238.57142895156,193.823529294463" />
+          TopLeft="320.000000553471,331.470587997339" />
         <NodeLayout
           Size="165.6,41.6"
           Id="Package\load_Country_STG"
-          TopLeft="571.428572517268,66.8823529351438" />
+          TopLeft="604.371429728549,98.2352940841323" />
         <NodeLayout
           Size="164.8,41.6"
           Id="Package\load_Product_STG"
-          TopLeft="60.7142857158062,111.99999995442" />
+          TopLeft="46.4285713996813,206.823529283068" />
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint]"
           TopLeft="433.361905329061,140.599999965815">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="78.6666668795406,53.2235293286482"
+              EndConnector="157.952381334033,180.92941156965"
               Start="0,0"
-              End="78.6666668795406,45.7235293286482">
+              End="157.952381334033,173.42941156965">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,17.6009640982611" />
+                    End="0,69.4308636224141" />
                   <mssgle:CubicBezierSegment
-                    Point1="0,17.6009640982611"
-                    Point2="0,21.6009640982611"
-                    Point3="4,21.6009640982611" />
+                    Point1="0,69.4308636224141"
+                    Point2="0,73.4308636224141"
+                    Point3="4,73.4308636224141" />
                   <mssgle:LineSegment
-                    End="74.6666668795406,21.6009640982611" />
+                    End="153.952381334033,73.4308636224141" />
                   <mssgle:CubicBezierSegment
-                    Point1="74.6666668795406,21.6009640982611"
-                    Point2="78.6666668795406,21.6009640982611"
-                    Point3="78.6666668795406,25.6009640982611" />
+                    Point1="153.952381334033,73.4308636224141"
+                    Point2="157.952381334033,73.4308636224141"
+                    Point3="157.952381334033,77.4308636224141" />
                   <mssgle:LineSegment
-                    End="78.6666668795406,45.7235293286482" />
+                    End="157.952381334033,173.42941156965" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -3210,30 +3839,30 @@
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 1]"
-          TopLeft="488.828571995728,125.399999965815">
+          TopLeft="453.948571995728,140.599999965815">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="81.171429089928,25.7529411489885"
+              EndConnector="235.337143416697,43.2823528667737"
               Start="0,0"
-              End="73.671429089928,25.7529411489885">
+              End="235.337143416697,35.7823528667737">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="30.272381171303,0" />
+                    End="0,9.00558638863774" />
                   <mssgle:CubicBezierSegment
-                    Point1="30.272381171303,0"
-                    Point2="34.272381171303,0"
-                    Point3="34.272381171303,4" />
+                    Point1="0,9.00558638863774"
+                    Point2="0,13.0055863886377"
+                    Point3="4,13.0055863886377" />
                   <mssgle:LineSegment
-                    End="34.272381171303,21.7529411489885" />
+                    End="231.337143416697,13.0055863886377" />
                   <mssgle:CubicBezierSegment
-                    Point1="34.272381171303,21.7529411489885"
-                    Point2="34.272381171303,25.7529411489885"
-                    Point3="38.272381171303,25.7529411489885" />
+                    Point1="231.337143416697,13.0055863886377"
+                    Point2="235.337143416697,13.0055863886377"
+                    Point3="235.337143416697,17.0055863886377" />
                   <mssgle:LineSegment
-                    End="73.671429089928,25.7529411489885" />
+                    End="235.337143416697,35.7823528667737" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -3248,26 +3877,26 @@
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="-56.1238097108345,53.2235293286482"
+              EndConnector="25.3047618910767,190.870588031525"
               Start="0,0"
-              End="-56.1238097108345,45.7235293286482">
+              End="25.3047618910767,183.370588031525">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,17.6009640982611" />
+                    End="0,73.4655264596237" />
                   <mssgle:CubicBezierSegment
-                    Point1="0,17.6009640982611"
-                    Point2="0,21.6009640982611"
-                    Point3="-4,21.6009640982611" />
+                    Point1="0,73.4655264596237"
+                    Point2="0,77.4655264596237"
+                    Point3="4,77.4655264596237" />
                   <mssgle:LineSegment
-                    End="-52.1238097108345,21.6009640982611" />
+                    End="21.3047618910767,77.4655264596237" />
                   <mssgle:CubicBezierSegment
-                    Point1="-52.1238097108345,21.6009640982611"
-                    Point2="-56.1238097108345,21.6009640982611"
-                    Point3="-56.1238097108345,25.6009640982611" />
+                    Point1="21.3047618910767,77.4655264596237"
+                    Point2="25.3047618910767,77.4655264596237"
+                    Point3="25.3047618910767,81.4655264596237" />
                   <mssgle:LineSegment
-                    End="-56.1238097108345,45.7235293286482" />
+                    End="25.3047618910767,183.370588031525" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -3278,18 +3907,30 @@
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 3]"
-          TopLeft="326.428571995728,129.099999960117">
+          TopLeft="356.161905329061,140.599999965815">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="-100.914286279922,0"
+              EndConnector="-227.33333392938,66.2235293172533"
               Start="0,0"
-              End="-93.4142862799217,0">
+              End="-227.33333392938,58.7235293172533">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="-93.4142862799217,0" />
+                    End="0,13.7498161511388" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,13.7498161511388"
+                    Point2="0,17.7498161511388"
+                    Point3="-4,17.7498161511388" />
+                  <mssgle:LineSegment
+                    End="-223.33333392938,17.7498161511388" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-223.33333392938,17.7498161511388"
+                    Point2="-227.33333392938,17.7498161511388"
+                    Point3="-227.33333392938,21.7498161511388" />
+                  <mssgle:LineSegment
+                    End="-227.33333392938,58.7235293172533" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -3300,30 +3941,18 @@
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 4]"
-          TopLeft="326.428571995728,114.199999965815">
+          TopLeft="326.428571995728,122.094117610863">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="-92.8285719957279,-33.3999999658149"
+              EndConnector="-126.400000638621,0"
               Start="0,0"
-              End="-85.3285719957279,-33.3999999658149">
+              End="-118.900000638621,0">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="-35.1942859537518,0" />
-                  <mssgle:CubicBezierSegment
-                    Point1="-35.1942859537518,0"
-                    Point2="-39.1942859537518,0"
-                    Point3="-39.1942859537518,-4" />
-                  <mssgle:LineSegment
-                    End="-39.1942859537518,-29.3999999658149" />
-                  <mssgle:CubicBezierSegment
-                    Point1="-39.1942859537518,-29.3999999658149"
-                    Point2="-39.1942859537518,-33.3999999658149"
-                    Point3="-43.1942859537518,-33.3999999658149" />
-                  <mssgle:LineSegment
-                    End="-85.3285719957279,-33.3999999658149" />
+                    End="-118.900000638621,0" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -3334,30 +3963,56 @@
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 5]"
-          TopLeft="488.828571995728,114.199999965815">
+          TopLeft="488.828571995728,119.417647024974">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="82.6000005215406,-26.5176470306711"
+              EndConnector="115.542857732821,0"
               Start="0,0"
-              End="75.1000005215406,-26.5176470306711">
+              End="108.042857732821,0">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="30.8755557757616,0" />
-                  <mssgle:CubicBezierSegment
-                    Point1="30.8755557757616,0"
-                    Point2="34.8755557757616,0"
-                    Point3="34.8755557757616,-4" />
+                    End="108.042857732821,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="153.6,41.6"
+          Id="Package\load_Sales_STG"
+          TopLeft="152.800000255448,332.647058531951" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 6]"
+          TopLeft="381.895238662395,140.599999965815">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-152.295238406946,192.047058566136"
+              Start="0,0"
+              End="-152.295238406946,184.547058566136">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
                   <mssgle:LineSegment
-                    End="34.8755557757616,-22.5176470306711" />
+                    End="0,73.9430013302564" />
                   <mssgle:CubicBezierSegment
-                    Point1="34.8755557757616,-22.5176470306711"
-                    Point2="34.8755557757616,-26.5176470306711"
-                    Point3="38.8755557757616,-26.5176470306711" />
+                    Point1="0,73.9430013302564"
+                    Point2="0,77.9430013302564"
+                    Point3="-4,77.9430013302564" />
                   <mssgle:LineSegment
-                    End="75.1000005215406,-26.5176470306711" />
+                    End="-148.295238406946,77.9430013302564" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-148.295238406946,77.9430013302564"
+                    Point2="-152.295238406946,77.9430013302564"
+                    Point3="-152.295238406946,81.9430013302564" />
+                  <mssgle:LineSegment
+                    End="-152.295238406946,184.547058566136" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -3964,6 +4619,120 @@
   </TaskHost>
   <PipelineComponentMetadata
     design-time-name="Package\load_Product_STG\OLE DB Source">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <TaskHost
+    design-time-name="Package\load_Sales_STG">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="170.4,41.6"
+          Id="Package\load_Sales_STG\OLE DB Destination"
+          TopLeft="295.714286343784,229.411764504794" />
+        <NodeLayout
+          Size="152.8,41.6"
+          Id="Package\load_Sales_STG\Derived Column"
+          TopLeft="294.285714912171,137.647058702876" />
+        <NodeLayout
+          Size="149.6,41.6"
+          Id="Package\load_Sales_STG\OLE DB Source"
+          TopLeft="284.285714890884,48.1764705460067" />
+        <EdgeLayout
+          Id="Package\load_Sales_STG.Paths[Derived Column Output]"
+          TopLeft="370.685714912171,179.247058702876">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="10.2285714316123,50.1647058019176"
+              Start="0,0"
+              End="10.2285714316123,42.6647058019176">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,21.0823529009588" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,21.0823529009588"
+                    Point2="0,25.0823529009588"
+                    Point3="4,25.0823529009588" />
+                  <mssgle:LineSegment
+                    End="6.22857143161229,25.0823529009588" />
+                  <mssgle:CubicBezierSegment
+                    Point1="6.22857143161229,25.0823529009588"
+                    Point2="10.2285714316123,25.0823529009588"
+                    Point3="10.2285714316123,29.0823529009588" />
+                  <mssgle:LineSegment
+                    End="10.2285714316123,42.6647058019176" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\load_Sales_STG.Paths[OLE DB Source Output]"
+          TopLeft="359.085714890884,89.7764705460067">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="11.6000000212873,47.8705881568696"
+              Start="0,0"
+              End="11.6000000212873,40.3705881568696">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,19.9352940784348" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,19.9352940784348"
+                    Point2="0,23.9352940784348"
+                    Point3="4,23.9352940784348" />
+                  <mssgle:LineSegment
+                    End="7.60000002128731,23.9352940784348" />
+                  <mssgle:CubicBezierSegment
+                    Point1="7.60000002128731,23.9352940784348"
+                    Point2="11.6000000212873,23.9352940784348"
+                    Point3="11.6000000212873,27.9352940784348" />
+                  <mssgle:LineSegment
+                    End="11.6000000212873,40.3705881568696" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\load_Sales_STG\OLE DB Destination">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\load_Sales_STG\OLE DB Source">
     <Properties>
       <Property>
         <Name>DataSourceViewID</Name>
