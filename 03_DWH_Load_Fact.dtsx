@@ -11,8 +11,8 @@
   DTS:LocaleID="1033"
   DTS:ObjectName="03_DWH_Load_Fact"
   DTS:PackageType="5"
-  DTS:VersionBuild="14"
-  DTS:VersionGUID="{BC53968E-E2C3-4DFA-8996-7EE21CB1F051}">
+  DTS:VersionBuild="15"
+  DTS:VersionGUID="{44802F9F-4D2F-42FB-9866-C13B0DB989C0}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -1952,101 +1952,6 @@ where [refTable].[ProductID] = ?</property>
                   name="Union All Input 3">
                   <inputColumns>
                     <inputColumn
-                      refId="Package\load FactSales\Union All.Inputs[Union All Input 3].Columns[SalesID]"
-                      cachedDataType="i4"
-                      cachedName="SalesID"
-                      lineageId="Package\load FactSales\load STG_Sales.Outputs[OLE DB Source Output].Columns[SalesID]">
-                      <properties>
-                        <property
-                          containsID="true"
-                          dataType="System.Int32"
-                          description="Output column lineage ID"
-                          name="OutputColumnLineageID">#{Package\load FactSales\Union All.Outputs[Union All Output 1].Columns[SalesID]}</property>
-                      </properties>
-                    </inputColumn>
-                    <inputColumn
-                      refId="Package\load FactSales\Union All.Inputs[Union All Input 3].Columns[SalesPersonID]"
-                      cachedDataType="i4"
-                      cachedName="SalesPersonID"
-                      lineageId="Package\load FactSales\load STG_Sales.Outputs[OLE DB Source Output].Columns[SalesPersonID]">
-                      <properties>
-                        <property
-                          containsID="true"
-                          dataType="System.Int32"
-                          description="Output column lineage ID"
-                          name="OutputColumnLineageID">#{Package\load FactSales\Union All.Outputs[Union All Output 1].Columns[SalesPersonID]}</property>
-                      </properties>
-                    </inputColumn>
-                    <inputColumn
-                      refId="Package\load FactSales\Union All.Inputs[Union All Input 3].Columns[CustomerID]"
-                      cachedDataType="i4"
-                      cachedName="CustomerID"
-                      lineageId="Package\load FactSales\load STG_Sales.Outputs[OLE DB Source Output].Columns[CustomerID]">
-                      <properties>
-                        <property
-                          containsID="true"
-                          dataType="System.Int32"
-                          description="Output column lineage ID"
-                          name="OutputColumnLineageID">#{Package\load FactSales\Union All.Outputs[Union All Output 1].Columns[CustomerID]}</property>
-                      </properties>
-                    </inputColumn>
-                    <inputColumn
-                      refId="Package\load FactSales\Union All.Inputs[Union All Input 3].Columns[ProductID]"
-                      cachedDataType="i4"
-                      cachedName="ProductID"
-                      lineageId="Package\load FactSales\load STG_Sales.Outputs[OLE DB Source Output].Columns[ProductID]">
-                      <properties>
-                        <property
-                          containsID="true"
-                          dataType="System.Int32"
-                          description="Output column lineage ID"
-                          name="OutputColumnLineageID">#{Package\load FactSales\Union All.Outputs[Union All Output 1].Columns[ProductID]}</property>
-                      </properties>
-                    </inputColumn>
-                    <inputColumn
-                      refId="Package\load FactSales\Union All.Inputs[Union All Input 3].Columns[Discount]"
-                      cachedDataType="numeric"
-                      cachedName="Discount"
-                      cachedPrecision="5"
-                      cachedScale="2"
-                      lineageId="Package\load FactSales\load STG_Sales.Outputs[OLE DB Source Output].Columns[Discount]">
-                      <properties>
-                        <property
-                          containsID="true"
-                          dataType="System.Int32"
-                          description="Output column lineage ID"
-                          name="OutputColumnLineageID">#{Package\load FactSales\Union All.Outputs[Union All Output 1].Columns[Discount]}</property>
-                      </properties>
-                    </inputColumn>
-                    <inputColumn
-                      refId="Package\load FactSales\Union All.Inputs[Union All Input 3].Columns[SalesDate]"
-                      cachedDataType="wstr"
-                      cachedLength="10"
-                      cachedName="SalesDate"
-                      lineageId="Package\load FactSales\load STG_Sales.Outputs[OLE DB Source Output].Columns[SalesDate]">
-                      <properties>
-                        <property
-                          containsID="true"
-                          dataType="System.Int32"
-                          description="Output column lineage ID"
-                          name="OutputColumnLineageID">#{Package\load FactSales\Union All.Outputs[Union All Output 1].Columns[SalesDate]}</property>
-                      </properties>
-                    </inputColumn>
-                    <inputColumn
-                      refId="Package\load FactSales\Union All.Inputs[Union All Input 3].Columns[TransactionNumber]"
-                      cachedDataType="wstr"
-                      cachedLength="50"
-                      cachedName="TransactionNumber"
-                      lineageId="Package\load FactSales\load STG_Sales.Outputs[OLE DB Source Output].Columns[TransactionNumber]">
-                      <properties>
-                        <property
-                          containsID="true"
-                          dataType="System.Int32"
-                          description="Output column lineage ID"
-                          name="OutputColumnLineageID">#{Package\load FactSales\Union All.Outputs[Union All Output 1].Columns[TransactionNumber]}</property>
-                      </properties>
-                    </inputColumn>
-                    <inputColumn
                       refId="Package\load FactSales\Union All.Inputs[Union All Input 3].Columns[CustomerSK]"
                       cachedDataType="i4"
                       cachedName="CustomerSK"
@@ -2124,6 +2029,19 @@ where [refTable].[ProductID] = ?</property>
                           name="OutputColumnLineageID">#{Package\load FactSales\Union All.Outputs[Union All Output 1].Columns[CitySK]}</property>
                       </properties>
                     </inputColumn>
+                    <inputColumn
+                      refId="Package\load FactSales\Union All.Inputs[Union All Input 3].Columns[SalesID]"
+                      cachedDataType="i4"
+                      cachedName="SalesID"
+                      lineageId="Package\load FactSales\load STG_Sales.Outputs[OLE DB Source Output].Columns[SalesID]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\load FactSales\Union All.Outputs[Union All Output 1].Columns[SalesID]}</property>
+                      </properties>
+                    </inputColumn>
                   </inputColumns>
                   <externalMetadataColumns />
                 </input>
@@ -2141,45 +2059,6 @@ where [refTable].[ProductID] = ?</property>
                   name="Union All Output 1">
                   <outputColumns>
                     <outputColumn
-                      refId="Package\load FactSales\Union All.Outputs[Union All Output 1].Columns[SalesID]"
-                      dataType="i4"
-                      lineageId="Package\load FactSales\Union All.Outputs[Union All Output 1].Columns[SalesID]"
-                      name="SalesID" />
-                    <outputColumn
-                      refId="Package\load FactSales\Union All.Outputs[Union All Output 1].Columns[SalesPersonID]"
-                      dataType="i4"
-                      lineageId="Package\load FactSales\Union All.Outputs[Union All Output 1].Columns[SalesPersonID]"
-                      name="SalesPersonID" />
-                    <outputColumn
-                      refId="Package\load FactSales\Union All.Outputs[Union All Output 1].Columns[CustomerID]"
-                      dataType="i4"
-                      lineageId="Package\load FactSales\Union All.Outputs[Union All Output 1].Columns[CustomerID]"
-                      name="CustomerID" />
-                    <outputColumn
-                      refId="Package\load FactSales\Union All.Outputs[Union All Output 1].Columns[ProductID]"
-                      dataType="i4"
-                      lineageId="Package\load FactSales\Union All.Outputs[Union All Output 1].Columns[ProductID]"
-                      name="ProductID" />
-                    <outputColumn
-                      refId="Package\load FactSales\Union All.Outputs[Union All Output 1].Columns[Discount]"
-                      dataType="numeric"
-                      lineageId="Package\load FactSales\Union All.Outputs[Union All Output 1].Columns[Discount]"
-                      name="Discount"
-                      precision="5"
-                      scale="2" />
-                    <outputColumn
-                      refId="Package\load FactSales\Union All.Outputs[Union All Output 1].Columns[SalesDate]"
-                      dataType="wstr"
-                      length="10"
-                      lineageId="Package\load FactSales\Union All.Outputs[Union All Output 1].Columns[SalesDate]"
-                      name="SalesDate" />
-                    <outputColumn
-                      refId="Package\load FactSales\Union All.Outputs[Union All Output 1].Columns[TransactionNumber]"
-                      dataType="wstr"
-                      length="50"
-                      lineageId="Package\load FactSales\Union All.Outputs[Union All Output 1].Columns[TransactionNumber]"
-                      name="TransactionNumber" />
-                    <outputColumn
                       refId="Package\load FactSales\Union All.Outputs[Union All Output 1].Columns[CustomerSK]"
                       dataType="i4"
                       lineageId="Package\load FactSales\Union All.Outputs[Union All Output 1].Columns[CustomerSK]"
@@ -2194,12 +2073,6 @@ where [refTable].[ProductID] = ?</property>
                       dataType="i4"
                       lineageId="Package\load FactSales\Union All.Outputs[Union All Output 1].Columns[ProductSK]"
                       name="ProductSK" />
-                    <outputColumn
-                      refId="Package\load FactSales\Union All.Outputs[Union All Output 1].Columns[Category]"
-                      dataType="wstr"
-                      length="100"
-                      lineageId="Package\load FactSales\Union All.Outputs[Union All Output 1].Columns[Category]"
-                      name="Category" />
                     <outputColumn
                       refId="Package\load FactSales\Union All.Outputs[Union All Output 1].Columns[CategorySK]"
                       dataType="i4"
@@ -2227,6 +2100,11 @@ where [refTable].[ProductID] = ?</property>
                       dataType="i4"
                       lineageId="Package\load FactSales\Union All.Outputs[Union All Output 1].Columns[CitySK]"
                       name="CitySK" />
+                    <outputColumn
+                      refId="Package\load FactSales\Union All.Outputs[Union All Output 1].Columns[SalesID]"
+                      dataType="i4"
+                      lineageId="Package\load FactSales\Union All.Outputs[Union All Output 1].Columns[SalesID]"
+                      name="SalesID" />
                   </outputColumns>
                   <externalMetadataColumns />
                 </output>
@@ -2545,28 +2423,6 @@ where [refTable].[ProductID] = ?</property>
             <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
-        <EdgeLayout
-          Id="Package\load FactSales.Paths[Union All Output 1]"
-          TopLeft="665.010715546801,416.764705517042">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="0,-77.8852940129136"
-              Start="0,0"
-              End="0,-70.3852940129136">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,-70.3852940129136" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
         <NodeLayout
           Size="161.6,41.6"
           Id="Package\load FactSales\Lookup Employee"
@@ -2681,6 +2537,28 @@ where [refTable].[ProductID] = ?</property>
             <mssgm:EdgeLabel
               BoundingBox="16.8127406025116,-17.609375,96.3827734375,11.609375"
               RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\load FactSales.Paths[Union All Output 1]"
+          TopLeft="665.010715546801,416.764705517042">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,-77.8852940129136"
+              Start="0,0"
+              End="0,-70.3852940129136">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,-70.3852940129136" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
       </GraphLayout>
