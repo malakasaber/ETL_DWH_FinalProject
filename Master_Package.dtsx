@@ -11,8 +11,8 @@
   DTS:LocaleID="1033"
   DTS:ObjectName="Master_Package"
   DTS:PackageType="5"
-  DTS:VersionBuild="10"
-  DTS:VersionGUID="{23A2E911-1A60-4F81-AE77-E36F7130C42F}">
+  DTS:VersionBuild="11"
+  DTS:VersionGUID="{C4AFB66E-126F-48EB-A89C-8922DDD5D6B0}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -66,19 +66,36 @@
       </DTS:ObjectData>
     </DTS:Executable>
     <DTS:Executable
-      DTS:refId="Package\Execute 03_DWH_Load_Fact"
+      DTS:refId="Package\Execute 03_DWH_Load_STG_Fact"
       DTS:CreationName="Microsoft.ExecutePackageTask"
       DTS:Description="Execute Package Task"
-      DTS:DTSID="{3649A2CB-2B76-4E97-9DCB-6262346576EC}"
+      DTS:DTSID="{4114DB0C-AFCB-4DF2-BD30-C05B8F1588CF}"
       DTS:ExecutableType="Microsoft.ExecutePackageTask"
       DTS:LocaleID="-1"
-      DTS:ObjectName="Execute 03_DWH_Load_Fact"
+      DTS:ObjectName="Execute 03_DWH_Load_STG_Fact"
       DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server; Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
       <DTS:Variables />
       <DTS:ObjectData>
         <ExecutePackageTask>
           <UseProjectReference>True</UseProjectReference>
-          <PackageName>03_DWH_Load_Fact.dtsx</PackageName>
+          <PackageName>03_DWH_Load_STG_Fact.dtsx</PackageName>
+        </ExecutePackageTask>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Execute 04_DWH_Load_Fact"
+      DTS:CreationName="Microsoft.ExecutePackageTask"
+      DTS:Description="Execute Package Task"
+      DTS:DTSID="{37914aa9-d5ec-441d-8f78-233ea2661a7b}"
+      DTS:ExecutableType="Microsoft.ExecutePackageTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Execute 04_DWH_Load_Fact"
+      DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server; Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <ExecutePackageTask>
+          <UseProjectReference>True</UseProjectReference>
+          <PackageName>04_DWH_Load_Fact.dtsx</PackageName>
         </ExecutePackageTask>
       </DTS:ObjectData>
     </DTS:Executable>
@@ -95,11 +112,19 @@
     <DTS:PrecedenceConstraint
       DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
       DTS:CreationName=""
-      DTS:DTSID="{DC639EC6-1F96-4845-9619-EE26C56E49FB}"
+      DTS:DTSID="{590C5089-A545-4EFE-A4F5-95764EDB41C9}"
       DTS:From="Package\Execute 02_DWH_Load_Dimensions"
       DTS:LogicalAnd="True"
       DTS:ObjectName="Constraint 1"
-      DTS:To="Package\Execute 03_DWH_Load_Fact" />
+      DTS:To="Package\Execute 03_DWH_Load_STG_Fact" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 2]"
+      DTS:CreationName=""
+      DTS:DTSID="{509ABB59-0C65-472A-A139-CAE7A62C0F98}"
+      DTS:From="Package\Execute 03_DWH_Load_STG_Fact"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 2"
+      DTS:To="Package\Execute 04_DWH_Load_Fact" />
   </DTS:PrecedenceConstraints>
   <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
 <!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
@@ -121,10 +146,6 @@
           Size="248,41.6"
           Id="Package\Execute 02_DWH_Load_Dimensions"
           TopLeft="231.428571921222,160.588235153356" />
-        <NodeLayout
-          Size="214.4,41.6"
-          Id="Package\Execute 03_DWH_Load_Fact"
-          TopLeft="245.714286237347,253.117646836956" />
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint]"
           TopLeft="352.185714789769,109.658823469756">
@@ -147,20 +168,50 @@
             <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
+        <NodeLayout
+          Size="239.2,41.6"
+          Id="Package\Execute 03_DWH_Load_STG_Fact"
+          TopLeft="237.857143363478,251.588235073591" />
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 1]"
-          TopLeft="354.171429079285,202.188235153356">
+          TopLeft="356.44285764235,202.188235153356">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,50.9294116836003"
+              EndConnector="0,49.3999999202348"
               Start="0,0"
-              End="0,43.4294116836003">
+              End="0,41.8999999202348">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,43.4294116836003" />
+                    End="0,41.8999999202348" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="214.4,41.6"
+          Id="Package\Execute 04_DWH_Load_Fact"
+          TopLeft="250.000000532184,332.541176268159" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 2]"
+          TopLeft="357.328571947831,293.188235073591">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,39.3529411945685"
+              Start="0,0"
+              End="0,31.8529411945685">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,31.8529411945685" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
