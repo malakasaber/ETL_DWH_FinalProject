@@ -11,8 +11,8 @@
   DTS:LocaleID="1033"
   DTS:ObjectName="03_DWH_Load_STG_Fact"
   DTS:PackageType="5"
-  DTS:VersionBuild="17"
-  DTS:VersionGUID="{10D3B2C1-E4DF-40F1-BCC4-D4C5E3DA4098}">
+  DTS:VersionBuild="20"
+  DTS:VersionGUID="{4DA9B699-FBAF-4F5F-80DA-BEF4B68FE981}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -49,7 +49,7 @@
       DTS:Namespace="User"
       DTS:ObjectName="EndDate">
       <DTS:VariableValue
-        DTS:DataType="7">5/9/2025 1:01:43 AM</DTS:VariableValue>
+        DTS:DataType="7">5/9/2018</DTS:VariableValue>
     </DTS:Variable>
     <DTS:Variable
       DTS:CreationName=""
@@ -58,7 +58,7 @@
       DTS:Namespace="User"
       DTS:ObjectName="StartDate">
       <DTS:VariableValue
-        DTS:DataType="7">5/9/2025 1:01:23 AM</DTS:VariableValue>
+        DTS:DataType="7">1/1/2018</DTS:VariableValue>
     </DTS:Variable>
   </DTS:Variables>
   <DTS:Executables>
@@ -1450,8 +1450,7 @@ GROUP BY
                       lineageId="Package\load_STG_FactSales\OLE DB Source.Outputs[OLE DB Source Output].Columns[SourceCustomerID]" />
                     <inputColumn
                       refId="Package\load_STG_FactSales\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[SourceDate]"
-                      cachedDataType="wstr"
-                      cachedLength="10"
+                      cachedDataType="dbTimeStamp"
                       cachedName="SourceDate"
                       externalMetadataColumnId="Package\load_STG_FactSales\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[SourceDate]"
                       lineageId="Package\load_STG_FactSales\OLE DB Source.Outputs[OLE DB Source Output].Columns[SourceDate]" />
@@ -1685,11 +1684,10 @@ WHERE s.SalesDate BETWEEN ? AND ?</property>
                       truncationRowDisposition="FailComponent" />
                     <outputColumn
                       refId="Package\load_STG_FactSales\OLE DB Source.Outputs[OLE DB Source Output].Columns[SourceDate]"
-                      dataType="wstr"
+                      dataType="dbTimeStamp"
                       errorOrTruncationOperation="Conversion"
                       errorRowDisposition="FailComponent"
                       externalMetadataColumnId="Package\load_STG_FactSales\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[SourceDate]"
-                      length="10"
                       lineageId="Package\load_STG_FactSales\OLE DB Source.Outputs[OLE DB Source Output].Columns[SourceDate]"
                       name="SourceDate"
                       truncationRowDisposition="FailComponent" />
@@ -1777,8 +1775,7 @@ WHERE s.SalesDate BETWEEN ? AND ?</property>
                       name="SourceCustomerID" />
                     <externalMetadataColumn
                       refId="Package\load_STG_FactSales\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[SourceDate]"
-                      dataType="wstr"
-                      length="10"
+                      dataType="dbTimeStamp"
                       name="SourceDate" />
                     <externalMetadataColumn
                       refId="Package\load_STG_FactSales\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[SourceCityID]"
@@ -1836,8 +1833,7 @@ WHERE s.SalesDate BETWEEN ? AND ?</property>
                       name="SourceCustomerID" />
                     <outputColumn
                       refId="Package\load_STG_FactSales\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[SourceDate]"
-                      dataType="wstr"
-                      length="10"
+                      dataType="dbTimeStamp"
                       lineageId="Package\load_STG_FactSales\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[SourceDate]"
                       name="SourceDate" />
                     <outputColumn
@@ -2115,7 +2111,7 @@ WHERE s.SalesDate BETWEEN ? AND ?</property>
     design-time-name="Package\Load_STG_FactEmployeePerformance">
     <LayoutInfo>
       <GraphLayout
-        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
         <NodeLayout
           Size="149.6,41.6"
           Id="Package\Load_STG_FactEmployeePerformance\OLE DB Source"
@@ -2147,7 +2143,9 @@ WHERE s.SalesDate BETWEEN ? AND ?</property>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -2169,7 +2167,9 @@ WHERE s.SalesDate BETWEEN ? AND ?</property>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
       </GraphLayout>
