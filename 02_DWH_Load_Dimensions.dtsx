@@ -11,8 +11,8 @@
   DTS:LocaleID="1033"
   DTS:ObjectName="02_DWH_Load_Dimensions"
   DTS:PackageType="5"
-  DTS:VersionBuild="32"
-  DTS:VersionGUID="{EF584187-E04D-4ED3-AA64-59ABAC7B80AE}">
+  DTS:VersionBuild="55"
+  DTS:VersionGUID="{42B6F0C4-C5A3-4772-90F2-536CD149C07F}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -29,6 +29,18 @@
       </DTS:ObjectData>
     </DTS:ConnectionManager>
     <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[LocalHost.GrocerySales_DWH 1]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{0EF32744-CB63-4DD0-BBB4-19BEB672B62B}"
+      DTS:ObjectName="LocalHost.GrocerySales_DWH 1">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectRetryCount="1"
+          DTS:ConnectRetryInterval="5"
+          DTS:ConnectionString="Data Source=.;Initial Catalog=GrocerySales_DWH;Provider=SQLOLEDB.1;Integrated Security=SSPI;Application Name=SSIS-02_DWH_Load_Dimensions-{0EF32744-CB63-4DD0-BBB4-19BEB672B62B}LocalHost.GrocerySales_DWH 1;Auto Translate=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
       DTS:refId="Package.ConnectionManagers[LocalHost.GrocerySales_STG]"
       DTS:CreationName="OLEDB"
       DTS:DTSID="{FCE6C041-DBE4-4361-BCFD-8541E76D3A8F}"
@@ -41,8 +53,44 @@
       </DTS:ObjectData>
     </DTS:ConnectionManager>
   </DTS:ConnectionManagers>
-  <DTS:Variables />
+  <DTS:Variables>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{324D6D11-240D-4E28-A28A-9D4244862AE0}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="EdDt">
+      <DTS:VariableValue
+        DTS:DataType="7">5/9/2018</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{86B167C7-E697-4362-B7B3-EC0C5F8B95E3}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="StDt">
+      <DTS:VariableValue
+        DTS:DataType="7">1/1/2018</DTS:VariableValue>
+    </DTS:Variable>
+  </DTS:Variables>
   <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Execute SQL Task DimDate"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{C49C163B-E401-4577-941B-6F09EAE4FFF8}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Execute SQL Task DimDate"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2022; © 2022 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{039862FD-3544-4B78-BC90-CE92C79FB598}"
+          SQLTask:SqlStatementSource="WITH DateRange AS (&#xA;    SELECT CAST('2018-01-01' AS DATE) AS DateValue&#xA;    UNION ALL&#xA;    SELECT DATEADD(DAY, 1, DateValue)&#xA;    FROM DateRange&#xA;    WHERE DateValue &lt; '2018-05-10'&#xA;)&#xA;INSERT INTO DimDate (DateID, FullDate, Month, Quarter, Year)&#xA;SELECT &#xA;    CAST(CONVERT(VARCHAR, DateValue, 112) AS INT) AS DateID,&#xA;    DateValue AS FullDate,&#xA;    MONTH(DateValue) AS Month,&#xA;    DATEPART(QUARTER, DateValue) AS Quarter,&#xA;    YEAR(DateValue) AS Year&#xA;FROM DateRange&#xA;OPTION (MAXRECURSION 201);" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
     <DTS:Executable
       DTS:refId="Package\load DimCategory"
       DTS:CreationName="Microsoft.Pipeline"
@@ -1473,39 +1521,39 @@ where [refTable].[CountryID] = ?</property>
           version="1">
           <components>
             <component
-              refId="Package\load productDim\Data Conversion IsCurrent Column"
+              refId="Package\load productDim\Data Conversion iscurrent"
               componentClassID="Microsoft.DataConvert"
               contactInfo="Data Conversion;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
               description="Data Conversion"
-              name="Data Conversion IsCurrent Column"
+              name="Data Conversion iscurrent"
               usesDispositions="true">
               <inputs>
                 <input
-                  refId="Package\load productDim\Data Conversion IsCurrent Column.Inputs[Data Conversion Input]"
+                  refId="Package\load productDim\Data Conversion iscurrent.Inputs[Data Conversion Input]"
                   name="Data Conversion Input">
                   <inputColumns>
                     <inputColumn
-                      refId="Package\load productDim\Data Conversion IsCurrent Column.Inputs[Data Conversion Input].Columns[IsCurrent]"
+                      refId="Package\load productDim\Data Conversion iscurrent.Inputs[Data Conversion Input].Columns[Is_Current]"
                       cachedDataType="i4"
-                      cachedName="IsCurrent"
-                      lineageId="Package\load productDim\Derived Column.Outputs[Derived Column Output].Columns[IsCurrent]" />
+                      cachedName="Is_Current"
+                      lineageId="Package\load productDim\Derived Column 3.Outputs[Derived Column Output].Columns[Is_Current]" />
                   </inputColumns>
                   <externalMetadataColumns />
                 </input>
               </inputs>
               <outputs>
                 <output
-                  refId="Package\load productDim\Data Conversion IsCurrent Column.Outputs[Data Conversion Output]"
+                  refId="Package\load productDim\Data Conversion iscurrent.Outputs[Data Conversion Output]"
                   exclusionGroup="1"
                   name="Data Conversion Output"
-                  synchronousInputId="Package\load productDim\Data Conversion IsCurrent Column.Inputs[Data Conversion Input]">
+                  synchronousInputId="Package\load productDim\Data Conversion iscurrent.Inputs[Data Conversion Input]">
                   <outputColumns>
                     <outputColumn
-                      refId="Package\load productDim\Data Conversion IsCurrent Column.Outputs[Data Conversion Output].Columns[DC_IsCurrent]"
+                      refId="Package\load productDim\Data Conversion iscurrent.Outputs[Data Conversion Output].Columns[DC_IsCurrent]"
                       dataType="bool"
                       errorOrTruncationOperation="Conversion"
                       errorRowDisposition="FailComponent"
-                      lineageId="Package\load productDim\Data Conversion IsCurrent Column.Outputs[Data Conversion Output].Columns[DC_IsCurrent]"
+                      lineageId="Package\load productDim\Data Conversion iscurrent.Outputs[Data Conversion Output].Columns[DC_IsCurrent]"
                       name="DC_IsCurrent"
                       truncationRowDisposition="FailComponent">
                       <properties>
@@ -1513,7 +1561,7 @@ where [refTable].[CountryID] = ?</property>
                           containsID="true"
                           dataType="System.Int32"
                           description="Specifies the input column used as the source of data for the conversion."
-                          name="SourceInputColumnLineageID">#{Package\load productDim\Derived Column.Outputs[Derived Column Output].Columns[IsCurrent]}</property>
+                          name="SourceInputColumnLineageID">#{Package\load productDim\Derived Column 3.Outputs[Derived Column Output].Columns[Is_Current]}</property>
                         <property
                           dataType="System.Boolean"
                           description="Indicates whether the column uses the faster, locale-neutral parsing routines."
@@ -1524,241 +1572,22 @@ where [refTable].[CountryID] = ?</property>
                   <externalMetadataColumns />
                 </output>
                 <output
-                  refId="Package\load productDim\Data Conversion IsCurrent Column.Outputs[Data Conversion Error Output]"
+                  refId="Package\load productDim\Data Conversion iscurrent.Outputs[Data Conversion Error Output]"
                   exclusionGroup="1"
                   isErrorOut="true"
                   name="Data Conversion Error Output"
-                  synchronousInputId="Package\load productDim\Data Conversion IsCurrent Column.Inputs[Data Conversion Input]">
+                  synchronousInputId="Package\load productDim\Data Conversion iscurrent.Inputs[Data Conversion Input]">
                   <outputColumns>
                     <outputColumn
-                      refId="Package\load productDim\Data Conversion IsCurrent Column.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
+                      refId="Package\load productDim\Data Conversion iscurrent.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
                       dataType="i4"
-                      lineageId="Package\load productDim\Data Conversion IsCurrent Column.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
+                      lineageId="Package\load productDim\Data Conversion iscurrent.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
                       name="ErrorCode"
                       specialFlags="1" />
                     <outputColumn
-                      refId="Package\load productDim\Data Conversion IsCurrent Column.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
+                      refId="Package\load productDim\Data Conversion iscurrent.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
                       dataType="i4"
-                      lineageId="Package\load productDim\Data Conversion IsCurrent Column.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
-                      name="ErrorColumn"
-                      specialFlags="2" />
-                  </outputColumns>
-                  <externalMetadataColumns />
-                </output>
-              </outputs>
-            </component>
-            <component
-              refId="Package\load productDim\Data Conversion Start and End Date Columns"
-              componentClassID="Microsoft.DataConvert"
-              contactInfo="Data Conversion;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
-              description="Data Conversion"
-              name="Data Conversion Start and End Date Columns"
-              usesDispositions="true">
-              <inputs>
-                <input
-                  refId="Package\load productDim\Data Conversion Start and End Date Columns.Inputs[Data Conversion Input]"
-                  name="Data Conversion Input">
-                  <inputColumns>
-                    <inputColumn
-                      refId="Package\load productDim\Data Conversion Start and End Date Columns.Inputs[Data Conversion Input].Columns[EndDate]"
-                      cachedDataType="wstr"
-                      cachedLength="4"
-                      cachedName="EndDate"
-                      lineageId="Package\load productDim\Derived Column.Outputs[Derived Column Output].Columns[EndDate]" />
-                    <inputColumn
-                      refId="Package\load productDim\Data Conversion Start and End Date Columns.Inputs[Data Conversion Input].Columns[StartDate]"
-                      cachedDataType="date"
-                      cachedName="StartDate"
-                      lineageId="Package\load productDim\Derived Column.Outputs[Derived Column Output].Columns[StartDate]" />
-                  </inputColumns>
-                  <externalMetadataColumns />
-                </input>
-              </inputs>
-              <outputs>
-                <output
-                  refId="Package\load productDim\Data Conversion Start and End Date Columns.Outputs[Data Conversion Output]"
-                  exclusionGroup="1"
-                  name="Data Conversion Output"
-                  synchronousInputId="Package\load productDim\Data Conversion Start and End Date Columns.Inputs[Data Conversion Input]">
-                  <outputColumns>
-                    <outputColumn
-                      refId="Package\load productDim\Data Conversion Start and End Date Columns.Outputs[Data Conversion Output].Columns[DC_EndDate]"
-                      dataType="dbTimeStamp"
-                      errorOrTruncationOperation="Conversion"
-                      errorRowDisposition="FailComponent"
-                      lineageId="Package\load productDim\Data Conversion Start and End Date Columns.Outputs[Data Conversion Output].Columns[DC_EndDate]"
-                      name="DC_EndDate"
-                      truncationRowDisposition="FailComponent">
-                      <properties>
-                        <property
-                          containsID="true"
-                          dataType="System.Int32"
-                          description="Specifies the input column used as the source of data for the conversion."
-                          name="SourceInputColumnLineageID">#{Package\load productDim\Derived Column.Outputs[Derived Column Output].Columns[EndDate]}</property>
-                        <property
-                          dataType="System.Boolean"
-                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
-                          name="FastParse">false</property>
-                      </properties>
-                    </outputColumn>
-                    <outputColumn
-                      refId="Package\load productDim\Data Conversion Start and End Date Columns.Outputs[Data Conversion Output].Columns[DC_StartDate]"
-                      dataType="dbTimeStamp"
-                      errorOrTruncationOperation="Conversion"
-                      errorRowDisposition="FailComponent"
-                      lineageId="Package\load productDim\Data Conversion Start and End Date Columns.Outputs[Data Conversion Output].Columns[DC_StartDate]"
-                      name="DC_StartDate"
-                      truncationRowDisposition="FailComponent">
-                      <properties>
-                        <property
-                          containsID="true"
-                          dataType="System.Int32"
-                          description="Specifies the input column used as the source of data for the conversion."
-                          name="SourceInputColumnLineageID">#{Package\load productDim\Derived Column.Outputs[Derived Column Output].Columns[StartDate]}</property>
-                        <property
-                          dataType="System.Boolean"
-                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
-                          name="FastParse">false</property>
-                      </properties>
-                    </outputColumn>
-                  </outputColumns>
-                  <externalMetadataColumns />
-                </output>
-                <output
-                  refId="Package\load productDim\Data Conversion Start and End Date Columns.Outputs[Data Conversion Error Output]"
-                  exclusionGroup="1"
-                  isErrorOut="true"
-                  name="Data Conversion Error Output"
-                  synchronousInputId="Package\load productDim\Data Conversion Start and End Date Columns.Inputs[Data Conversion Input]">
-                  <outputColumns>
-                    <outputColumn
-                      refId="Package\load productDim\Data Conversion Start and End Date Columns.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
-                      dataType="i4"
-                      lineageId="Package\load productDim\Data Conversion Start and End Date Columns.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
-                      name="ErrorCode"
-                      specialFlags="1" />
-                    <outputColumn
-                      refId="Package\load productDim\Data Conversion Start and End Date Columns.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
-                      dataType="i4"
-                      lineageId="Package\load productDim\Data Conversion Start and End Date Columns.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
-                      name="ErrorColumn"
-                      specialFlags="2" />
-                  </outputColumns>
-                  <externalMetadataColumns />
-                </output>
-              </outputs>
-            </component>
-            <component
-              refId="Package\load productDim\Derived Column"
-              componentClassID="Microsoft.DerivedColumn"
-              contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
-              description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
-              name="Derived Column"
-              usesDispositions="true">
-              <inputs>
-                <input
-                  refId="Package\load productDim\Derived Column.Inputs[Derived Column Input]"
-                  description="Input to the Derived Column Transformation"
-                  name="Derived Column Input">
-                  <externalMetadataColumns />
-                </input>
-              </inputs>
-              <outputs>
-                <output
-                  refId="Package\load productDim\Derived Column.Outputs[Derived Column Output]"
-                  description="Default Output of the Derived Column Transformation"
-                  exclusionGroup="1"
-                  name="Derived Column Output"
-                  synchronousInputId="Package\load productDim\Derived Column.Inputs[Derived Column Input]">
-                  <outputColumns>
-                    <outputColumn
-                      refId="Package\load productDim\Derived Column.Outputs[Derived Column Output].Columns[StartDate]"
-                      dataType="date"
-                      errorOrTruncationOperation="Computation"
-                      errorRowDisposition="FailComponent"
-                      lineageId="Package\load productDim\Derived Column.Outputs[Derived Column Output].Columns[StartDate]"
-                      name="StartDate"
-                      truncationRowDisposition="FailComponent">
-                      <properties>
-                        <property
-                          containsID="true"
-                          dataType="System.String"
-                          description="Derived Column Expression"
-                          name="Expression">@[System::StartTime]</property>
-                        <property
-                          containsID="true"
-                          dataType="System.String"
-                          description="Derived Column Friendly Expression"
-                          expressionType="Notify"
-                          name="FriendlyExpression">@[System::StartTime]</property>
-                      </properties>
-                    </outputColumn>
-                    <outputColumn
-                      refId="Package\load productDim\Derived Column.Outputs[Derived Column Output].Columns[EndDate]"
-                      dataType="wstr"
-                      errorOrTruncationOperation="Computation"
-                      errorRowDisposition="FailComponent"
-                      length="4"
-                      lineageId="Package\load productDim\Derived Column.Outputs[Derived Column Output].Columns[EndDate]"
-                      name="EndDate"
-                      truncationRowDisposition="FailComponent">
-                      <properties>
-                        <property
-                          containsID="true"
-                          dataType="System.String"
-                          description="Derived Column Expression"
-                          name="Expression">"NULL"</property>
-                        <property
-                          containsID="true"
-                          dataType="System.String"
-                          description="Derived Column Friendly Expression"
-                          expressionType="Notify"
-                          name="FriendlyExpression">"NULL"</property>
-                      </properties>
-                    </outputColumn>
-                    <outputColumn
-                      refId="Package\load productDim\Derived Column.Outputs[Derived Column Output].Columns[IsCurrent]"
-                      dataType="i4"
-                      errorOrTruncationOperation="Computation"
-                      errorRowDisposition="FailComponent"
-                      lineageId="Package\load productDim\Derived Column.Outputs[Derived Column Output].Columns[IsCurrent]"
-                      name="IsCurrent"
-                      truncationRowDisposition="FailComponent">
-                      <properties>
-                        <property
-                          containsID="true"
-                          dataType="System.String"
-                          description="Derived Column Expression"
-                          name="Expression">1</property>
-                        <property
-                          containsID="true"
-                          dataType="System.String"
-                          description="Derived Column Friendly Expression"
-                          expressionType="Notify"
-                          name="FriendlyExpression">1</property>
-                      </properties>
-                    </outputColumn>
-                  </outputColumns>
-                  <externalMetadataColumns />
-                </output>
-                <output
-                  refId="Package\load productDim\Derived Column.Outputs[Derived Column Error Output]"
-                  description="Error Output of the Derived Column Transformation"
-                  exclusionGroup="1"
-                  isErrorOut="true"
-                  name="Derived Column Error Output"
-                  synchronousInputId="Package\load productDim\Derived Column.Inputs[Derived Column Input]">
-                  <outputColumns>
-                    <outputColumn
-                      refId="Package\load productDim\Derived Column.Outputs[Derived Column Error Output].Columns[ErrorCode]"
-                      dataType="i4"
-                      lineageId="Package\load productDim\Derived Column.Outputs[Derived Column Error Output].Columns[ErrorCode]"
-                      name="ErrorCode"
-                      specialFlags="1" />
-                    <outputColumn
-                      refId="Package\load productDim\Derived Column.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
-                      dataType="i4"
-                      lineageId="Package\load productDim\Derived Column.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      lineageId="Package\load productDim\Data Conversion iscurrent.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
                       name="ErrorColumn"
                       specialFlags="2" />
                   </outputColumns>
@@ -1785,7 +1614,7 @@ where [refTable].[CountryID] = ?</property>
                       cachedName="DC_IsCurrent"
                       errorOrTruncationOperation="Computation"
                       errorRowDisposition="FailComponent"
-                      lineageId="Package\load productDim\Data Conversion IsCurrent Column.Outputs[Data Conversion Output].Columns[DC_IsCurrent]"
+                      lineageId="Package\load productDim\Data Conversion iscurrent.Outputs[Data Conversion Output].Columns[DC_IsCurrent]"
                       truncationRowDisposition="FailComponent"
                       usageType="readWrite">
                       <properties>
@@ -1915,6 +1744,123 @@ where [refTable].[CountryID] = ?</property>
               </outputs>
             </component>
             <component
+              refId="Package\load productDim\Derived Column 3"
+              componentClassID="Microsoft.DerivedColumn"
+              contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+              name="Derived Column 3"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\load productDim\Derived Column 3.Inputs[Derived Column Input]"
+                  description="Input to the Derived Column Transformation"
+                  name="Derived Column Input">
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\load productDim\Derived Column 3.Outputs[Derived Column Output]"
+                  description="Default Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  name="Derived Column Output"
+                  synchronousInputId="Package\load productDim\Derived Column 3.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\load productDim\Derived Column 3.Outputs[Derived Column Output].Columns[DC_StartDate]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\load productDim\Derived Column 3.Outputs[Derived Column Output].Columns[DC_StartDate]"
+                      name="DC_StartDate"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">(DT_DBTIMESTAMP)@[System::StartTime]</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">(DT_DBTIMESTAMP)@[System::StartTime]</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\load productDim\Derived Column 3.Outputs[Derived Column Output].Columns[DC_EndDate]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\load productDim\Derived Column 3.Outputs[Derived Column Output].Columns[DC_EndDate]"
+                      name="DC_EndDate"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">(DT_DBTIMESTAMP)"2099-12-31 23:59:59"</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">(DT_DBTIMESTAMP)"2099-12-31 23:59:59"</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\load productDim\Derived Column 3.Outputs[Derived Column Output].Columns[Is_Current]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\load productDim\Derived Column 3.Outputs[Derived Column Output].Columns[Is_Current]"
+                      name="Is_Current"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">1</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">1</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\load productDim\Derived Column 3.Outputs[Derived Column Error Output]"
+                  description="Error Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Derived Column Error Output"
+                  synchronousInputId="Package\load productDim\Derived Column 3.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\load productDim\Derived Column 3.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\load productDim\Derived Column 3.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\load productDim\Derived Column 3.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\load productDim\Derived Column 3.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
               refId="Package\load productDim\Insert Destination"
               componentClassID="Microsoft.OLEDBDestination"
               contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
@@ -2021,12 +1967,6 @@ where [refTable].[CountryID] = ?</property>
                       externalMetadataColumnId="Package\load productDim\Insert Destination.Inputs[OLE DB Destination Input].ExternalColumns[Resistant]"
                       lineageId="Package\load productDim\Union All.Outputs[Union All Output 1].Columns[Resistant]" />
                     <inputColumn
-                      refId="Package\load productDim\Insert Destination.Inputs[OLE DB Destination Input].Columns[StartDate]"
-                      cachedDataType="date"
-                      cachedName="StartDate"
-                      externalMetadataColumnId="Package\load productDim\Insert Destination.Inputs[OLE DB Destination Input].ExternalColumns[StartDate]"
-                      lineageId="Package\load productDim\Union All.Outputs[Union All Output 1].Columns[StartDate]" />
-                    <inputColumn
                       refId="Package\load productDim\Insert Destination.Inputs[OLE DB Destination Input].Columns[DC_EndDate]"
                       cachedDataType="dbTimeStamp"
                       cachedName="DC_EndDate"
@@ -2038,6 +1978,12 @@ where [refTable].[CountryID] = ?</property>
                       cachedName="DC_IsCurrent"
                       externalMetadataColumnId="Package\load productDim\Insert Destination.Inputs[OLE DB Destination Input].ExternalColumns[IsCurrent]"
                       lineageId="Package\load productDim\Union All.Outputs[Union All Output 1].Columns[DC_IsCurrent]" />
+                    <inputColumn
+                      refId="Package\load productDim\Insert Destination.Inputs[OLE DB Destination Input].Columns[DC_StartDate]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="DC_StartDate"
+                      externalMetadataColumnId="Package\load productDim\Insert Destination.Inputs[OLE DB Destination Input].ExternalColumns[StartDate]"
+                      lineageId="Package\load productDim\Union All.Outputs[Union All Output 1].Columns[DC_StartDate]" />
                   </inputColumns>
                   <externalMetadataColumns
                     isUsed="True">
@@ -2110,11 +2056,11 @@ where [refTable].[CountryID] = ?</property>
               </outputs>
             </component>
             <component
-              refId="Package\load productDim\Lookup"
+              refId="Package\load productDim\Lookup CategoryName"
               componentClassID="Microsoft.Lookup"
               contactInfo="Lookup;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;6"
               description="Joins additional columns to the data flow by looking up values in a table. For example, join to the 'employee id' column the employees table to get 'hire date' and 'employee name'. We recommend this transformation when the lookup table can fit into memory."
-              name="Lookup"
+              name="Lookup CategoryName"
               usesDispositions="true"
               version="6">
               <properties>
@@ -2178,7 +2124,7 @@ where [refTable].[CategoryID] = ?</property>
               </properties>
               <connections>
                 <connection
-                  refId="Package\load productDim\Lookup.Connections[OleDbConnection]"
+                  refId="Package\load productDim\Lookup CategoryName.Connections[OleDbConnection]"
                   connectionManagerID="Package.ConnectionManagers[LocalHost.GrocerySales_STG]"
                   connectionManagerRefId="Package.ConnectionManagers[LocalHost.GrocerySales_STG]"
                   description="Connection manager used to access lookup data."
@@ -2186,11 +2132,11 @@ where [refTable].[CategoryID] = ?</property>
               </connections>
               <inputs>
                 <input
-                  refId="Package\load productDim\Lookup.Inputs[Lookup Input]"
+                  refId="Package\load productDim\Lookup CategoryName.Inputs[Lookup Input]"
                   name="Lookup Input">
                   <inputColumns>
                     <inputColumn
-                      refId="Package\load productDim\Lookup.Inputs[Lookup Input].Columns[CategoryID]"
+                      refId="Package\load productDim\Lookup CategoryName.Inputs[Lookup Input].Columns[CategoryID]"
                       cachedDataType="i4"
                       cachedName="CategoryID"
                       lineageId="Package\load productDim\OLE DB Source.Outputs[OLE DB Source Output].Columns[CategoryID]">
@@ -2211,19 +2157,19 @@ where [refTable].[CategoryID] = ?</property>
               </inputs>
               <outputs>
                 <output
-                  refId="Package\load productDim\Lookup.Outputs[Lookup Match Output]"
+                  refId="Package\load productDim\Lookup CategoryName.Outputs[Lookup Match Output]"
                   errorOrTruncationOperation="Lookup"
                   errorRowDisposition="FailComponent"
                   exclusionGroup="1"
                   name="Lookup Match Output"
-                  synchronousInputId="Package\load productDim\Lookup.Inputs[Lookup Input]">
+                  synchronousInputId="Package\load productDim\Lookup CategoryName.Inputs[Lookup Input]">
                   <outputColumns>
                     <outputColumn
-                      refId="Package\load productDim\Lookup.Outputs[Lookup Match Output].Columns[CategoryName]"
+                      refId="Package\load productDim\Lookup CategoryName.Outputs[Lookup Match Output].Columns[CategoryName]"
                       dataType="wstr"
                       errorOrTruncationOperation="Copy Column"
                       length="100"
-                      lineageId="Package\load productDim\Lookup.Outputs[Lookup Match Output].Columns[CategoryName]"
+                      lineageId="Package\load productDim\Lookup CategoryName.Outputs[Lookup Match Output].Columns[CategoryName]"
                       name="CategoryName"
                       truncationRowDisposition="FailComponent">
                       <properties>
@@ -2237,30 +2183,30 @@ where [refTable].[CategoryID] = ?</property>
                   <externalMetadataColumns />
                 </output>
                 <output
-                  refId="Package\load productDim\Lookup.Outputs[Lookup No Match Output]"
+                  refId="Package\load productDim\Lookup CategoryName.Outputs[Lookup No Match Output]"
                   description="The Lookup output that handles rows with no matching entries in the reference dataset. Use this output when the NoMatchBehavior property is set to &quot;Send rows with no matching entries to the no match output.&quot;"
                   exclusionGroup="1"
                   name="Lookup No Match Output"
-                  synchronousInputId="Package\load productDim\Lookup.Inputs[Lookup Input]">
+                  synchronousInputId="Package\load productDim\Lookup CategoryName.Inputs[Lookup Input]">
                   <externalMetadataColumns />
                 </output>
                 <output
-                  refId="Package\load productDim\Lookup.Outputs[Lookup Error Output]"
+                  refId="Package\load productDim\Lookup CategoryName.Outputs[Lookup Error Output]"
                   exclusionGroup="1"
                   isErrorOut="true"
                   name="Lookup Error Output"
-                  synchronousInputId="Package\load productDim\Lookup.Inputs[Lookup Input]">
+                  synchronousInputId="Package\load productDim\Lookup CategoryName.Inputs[Lookup Input]">
                   <outputColumns>
                     <outputColumn
-                      refId="Package\load productDim\Lookup.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      refId="Package\load productDim\Lookup CategoryName.Outputs[Lookup Error Output].Columns[ErrorCode]"
                       dataType="i4"
-                      lineageId="Package\load productDim\Lookup.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      lineageId="Package\load productDim\Lookup CategoryName.Outputs[Lookup Error Output].Columns[ErrorCode]"
                       name="ErrorCode"
                       specialFlags="1" />
                     <outputColumn
-                      refId="Package\load productDim\Lookup.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      refId="Package\load productDim\Lookup CategoryName.Outputs[Lookup Error Output].Columns[ErrorColumn]"
                       dataType="i4"
-                      lineageId="Package\load productDim\Lookup.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      lineageId="Package\load productDim\Lookup CategoryName.Outputs[Lookup Error Output].Columns[ErrorColumn]"
                       name="ErrorColumn"
                       specialFlags="2" />
                   </outputColumns>
@@ -2313,7 +2259,7 @@ where [refTable].[CategoryID] = ?</property>
                       cachedDataType="bool"
                       cachedName="DC_IsCurrent"
                       externalMetadataColumnId="Package\load productDim\OLE DB Command.Inputs[OLE DB Command Input].ExternalColumns[Param_0]"
-                      lineageId="Package\load productDim\Data Conversion IsCurrent Column.Outputs[Data Conversion Output].Columns[DC_IsCurrent]" />
+                      lineageId="Package\load productDim\Data Conversion iscurrent.Outputs[Data Conversion Output].Columns[DC_IsCurrent]" />
                     <inputColumn
                       refId="Package\load productDim\OLE DB Command.Inputs[OLE DB Command Input].Columns[ProductID]"
                       cachedDataType="i4"
@@ -2826,11 +2772,12 @@ where [refTable].[CategoryID] = ?</property>
               version="1">
               <inputs>
                 <input
-                  refId="Package\load productDim\Union All.Inputs[Union All Input 1]"
-                  name="Union All Input 1">
+                  refId="Package\load productDim\Union All.Inputs[Union All Input 3]"
+                  hasSideEffects="true"
+                  name="Union All Input 3">
                   <inputColumns>
                     <inputColumn
-                      refId="Package\load productDim\Union All.Inputs[Union All Input 1].Columns[ProductID]"
+                      refId="Package\load productDim\Union All.Inputs[Union All Input 3].Columns[ProductID]"
                       cachedDataType="i4"
                       cachedName="ProductID"
                       lineageId="Package\load productDim\OLE DB Source.Outputs[OLE DB Source Output].Columns[ProductID]">
@@ -2843,7 +2790,7 @@ where [refTable].[CategoryID] = ?</property>
                       </properties>
                     </inputColumn>
                     <inputColumn
-                      refId="Package\load productDim\Union All.Inputs[Union All Input 1].Columns[ProductName]"
+                      refId="Package\load productDim\Union All.Inputs[Union All Input 3].Columns[ProductName]"
                       cachedDataType="wstr"
                       cachedLength="100"
                       cachedName="ProductName"
@@ -2857,7 +2804,7 @@ where [refTable].[CategoryID] = ?</property>
                       </properties>
                     </inputColumn>
                     <inputColumn
-                      refId="Package\load productDim\Union All.Inputs[Union All Input 1].Columns[Price]"
+                      refId="Package\load productDim\Union All.Inputs[Union All Input 3].Columns[Price]"
                       cachedDataType="numeric"
                       cachedName="Price"
                       cachedPrecision="10"
@@ -2872,7 +2819,7 @@ where [refTable].[CategoryID] = ?</property>
                       </properties>
                     </inputColumn>
                     <inputColumn
-                      refId="Package\load productDim\Union All.Inputs[Union All Input 1].Columns[CategoryID]"
+                      refId="Package\load productDim\Union All.Inputs[Union All Input 3].Columns[CategoryID]"
                       cachedDataType="i4"
                       cachedName="CategoryID"
                       lineageId="Package\load productDim\OLE DB Source.Outputs[OLE DB Source Output].Columns[CategoryID]">
@@ -2885,7 +2832,7 @@ where [refTable].[CategoryID] = ?</property>
                       </properties>
                     </inputColumn>
                     <inputColumn
-                      refId="Package\load productDim\Union All.Inputs[Union All Input 1].Columns[Class]"
+                      refId="Package\load productDim\Union All.Inputs[Union All Input 3].Columns[Class]"
                       cachedDataType="wstr"
                       cachedLength="50"
                       cachedName="Class"
@@ -2899,7 +2846,7 @@ where [refTable].[CategoryID] = ?</property>
                       </properties>
                     </inputColumn>
                     <inputColumn
-                      refId="Package\load productDim\Union All.Inputs[Union All Input 1].Columns[ModifyDate]"
+                      refId="Package\load productDim\Union All.Inputs[Union All Input 3].Columns[ModifyDate]"
                       cachedDataType="wstr"
                       cachedLength="10"
                       cachedName="ModifyDate"
@@ -2913,7 +2860,7 @@ where [refTable].[CategoryID] = ?</property>
                       </properties>
                     </inputColumn>
                     <inputColumn
-                      refId="Package\load productDim\Union All.Inputs[Union All Input 1].Columns[Resistant]"
+                      refId="Package\load productDim\Union All.Inputs[Union All Input 3].Columns[Resistant]"
                       cachedDataType="wstr"
                       cachedLength="50"
                       cachedName="Resistant"
@@ -2927,7 +2874,7 @@ where [refTable].[CategoryID] = ?</property>
                       </properties>
                     </inputColumn>
                     <inputColumn
-                      refId="Package\load productDim\Union All.Inputs[Union All Input 1].Columns[IsAllergic]"
+                      refId="Package\load productDim\Union All.Inputs[Union All Input 3].Columns[IsAllergic]"
                       cachedDataType="wstr"
                       cachedLength="50"
                       cachedName="IsAllergic"
@@ -2941,7 +2888,7 @@ where [refTable].[CategoryID] = ?</property>
                       </properties>
                     </inputColumn>
                     <inputColumn
-                      refId="Package\load productDim\Union All.Inputs[Union All Input 1].Columns[VitalityDays]"
+                      refId="Package\load productDim\Union All.Inputs[Union All Input 3].Columns[VitalityDays]"
                       cachedDataType="i4"
                       cachedName="VitalityDays"
                       lineageId="Package\load productDim\OLE DB Source.Outputs[OLE DB Source Output].Columns[VitalityDays]">
@@ -2954,77 +2901,10 @@ where [refTable].[CategoryID] = ?</property>
                       </properties>
                     </inputColumn>
                     <inputColumn
-                      refId="Package\load productDim\Union All.Inputs[Union All Input 1].Columns[CategoryName]"
-                      cachedDataType="wstr"
-                      cachedLength="100"
-                      cachedName="CategoryName"
-                      lineageId="Package\load productDim\Lookup.Outputs[Lookup Match Output].Columns[CategoryName]">
-                      <properties>
-                        <property
-                          containsID="true"
-                          dataType="System.Int32"
-                          description="Output column lineage ID"
-                          name="OutputColumnLineageID">#{Package\load productDim\Union All.Outputs[Union All Output 1].Columns[CategoryName]}</property>
-                      </properties>
-                    </inputColumn>
-                    <inputColumn
-                      refId="Package\load productDim\Union All.Inputs[Union All Input 1].Columns[StartDate]"
-                      cachedDataType="date"
-                      cachedName="StartDate"
-                      lineageId="Package\load productDim\Derived Column.Outputs[Derived Column Output].Columns[StartDate]">
-                      <properties>
-                        <property
-                          containsID="true"
-                          dataType="System.Int32"
-                          description="Output column lineage ID"
-                          name="OutputColumnLineageID">#{Package\load productDim\Union All.Outputs[Union All Output 1].Columns[StartDate]}</property>
-                      </properties>
-                    </inputColumn>
-                    <inputColumn
-                      refId="Package\load productDim\Union All.Inputs[Union All Input 1].Columns[EndDate]"
-                      cachedDataType="wstr"
-                      cachedLength="4"
-                      cachedName="EndDate"
-                      lineageId="Package\load productDim\Derived Column.Outputs[Derived Column Output].Columns[EndDate]">
-                      <properties>
-                        <property
-                          containsID="true"
-                          dataType="System.Int32"
-                          description="Output column lineage ID"
-                          name="OutputColumnLineageID">#{Package\load productDim\Union All.Outputs[Union All Output 1].Columns[EndDate]}</property>
-                      </properties>
-                    </inputColumn>
-                    <inputColumn
-                      refId="Package\load productDim\Union All.Inputs[Union All Input 1].Columns[IsCurrent]"
-                      cachedDataType="i4"
-                      cachedName="IsCurrent"
-                      lineageId="Package\load productDim\Derived Column.Outputs[Derived Column Output].Columns[IsCurrent]">
-                      <properties>
-                        <property
-                          containsID="true"
-                          dataType="System.Int32"
-                          description="Output column lineage ID"
-                          name="OutputColumnLineageID">#{Package\load productDim\Union All.Outputs[Union All Output 1].Columns[IsCurrent]}</property>
-                      </properties>
-                    </inputColumn>
-                    <inputColumn
-                      refId="Package\load productDim\Union All.Inputs[Union All Input 1].Columns[DC_EndDate]"
-                      cachedDataType="dbTimeStamp"
-                      cachedName="DC_EndDate"
-                      lineageId="Package\load productDim\Data Conversion Start and End Date Columns.Outputs[Data Conversion Output].Columns[DC_EndDate]">
-                      <properties>
-                        <property
-                          containsID="true"
-                          dataType="System.Int32"
-                          description="Output column lineage ID"
-                          name="OutputColumnLineageID">#{Package\load productDim\Union All.Outputs[Union All Output 1].Columns[DC_EndDate]}</property>
-                      </properties>
-                    </inputColumn>
-                    <inputColumn
-                      refId="Package\load productDim\Union All.Inputs[Union All Input 1].Columns[DC_StartDate]"
+                      refId="Package\load productDim\Union All.Inputs[Union All Input 3].Columns[DC_StartDate]"
                       cachedDataType="dbTimeStamp"
                       cachedName="DC_StartDate"
-                      lineageId="Package\load productDim\Data Conversion Start and End Date Columns.Outputs[Data Conversion Output].Columns[DC_StartDate]">
+                      lineageId="Package\load productDim\Derived Column 3.Outputs[Derived Column Output].Columns[DC_StartDate]">
                       <properties>
                         <property
                           containsID="true"
@@ -3034,16 +2914,43 @@ where [refTable].[CategoryID] = ?</property>
                       </properties>
                     </inputColumn>
                     <inputColumn
-                      refId="Package\load productDim\Union All.Inputs[Union All Input 1].Columns[DC_IsCurrent]"
+                      refId="Package\load productDim\Union All.Inputs[Union All Input 3].Columns[DC_EndDate]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="DC_EndDate"
+                      lineageId="Package\load productDim\Derived Column 3.Outputs[Derived Column Output].Columns[DC_EndDate]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\load productDim\Union All.Outputs[Union All Output 1].Columns[DC_EndDate]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\load productDim\Union All.Inputs[Union All Input 3].Columns[DC_IsCurrent]"
                       cachedDataType="bool"
                       cachedName="DC_IsCurrent"
-                      lineageId="Package\load productDim\Data Conversion IsCurrent Column.Outputs[Data Conversion Output].Columns[DC_IsCurrent]">
+                      lineageId="Package\load productDim\Data Conversion iscurrent.Outputs[Data Conversion Output].Columns[DC_IsCurrent]">
                       <properties>
                         <property
                           containsID="true"
                           dataType="System.Int32"
                           description="Output column lineage ID"
                           name="OutputColumnLineageID">#{Package\load productDim\Union All.Outputs[Union All Output 1].Columns[DC_IsCurrent]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\load productDim\Union All.Inputs[Union All Input 3].Columns[CategoryName]"
+                      cachedDataType="wstr"
+                      cachedLength="100"
+                      cachedName="CategoryName"
+                      lineageId="Package\load productDim\Lookup CategoryName.Outputs[Lookup Match Output].Columns[CategoryName]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\load productDim\Union All.Outputs[Union All Output 1].Columns[CategoryName]}</property>
                       </properties>
                     </inputColumn>
                   </inputColumns>
@@ -3179,77 +3086,10 @@ where [refTable].[CategoryID] = ?</property>
                       </properties>
                     </inputColumn>
                     <inputColumn
-                      refId="Package\load productDim\Union All.Inputs[Union All Input 2].Columns[CategoryName]"
-                      cachedDataType="wstr"
-                      cachedLength="100"
-                      cachedName="CategoryName"
-                      lineageId="Package\load productDim\Lookup.Outputs[Lookup Match Output].Columns[CategoryName]">
-                      <properties>
-                        <property
-                          containsID="true"
-                          dataType="System.Int32"
-                          description="Output column lineage ID"
-                          name="OutputColumnLineageID">#{Package\load productDim\Union All.Outputs[Union All Output 1].Columns[CategoryName]}</property>
-                      </properties>
-                    </inputColumn>
-                    <inputColumn
-                      refId="Package\load productDim\Union All.Inputs[Union All Input 2].Columns[StartDate]"
-                      cachedDataType="date"
-                      cachedName="StartDate"
-                      lineageId="Package\load productDim\Derived Column.Outputs[Derived Column Output].Columns[StartDate]">
-                      <properties>
-                        <property
-                          containsID="true"
-                          dataType="System.Int32"
-                          description="Output column lineage ID"
-                          name="OutputColumnLineageID">#{Package\load productDim\Union All.Outputs[Union All Output 1].Columns[StartDate]}</property>
-                      </properties>
-                    </inputColumn>
-                    <inputColumn
-                      refId="Package\load productDim\Union All.Inputs[Union All Input 2].Columns[EndDate]"
-                      cachedDataType="wstr"
-                      cachedLength="4"
-                      cachedName="EndDate"
-                      lineageId="Package\load productDim\Derived Column.Outputs[Derived Column Output].Columns[EndDate]">
-                      <properties>
-                        <property
-                          containsID="true"
-                          dataType="System.Int32"
-                          description="Output column lineage ID"
-                          name="OutputColumnLineageID">#{Package\load productDim\Union All.Outputs[Union All Output 1].Columns[EndDate]}</property>
-                      </properties>
-                    </inputColumn>
-                    <inputColumn
-                      refId="Package\load productDim\Union All.Inputs[Union All Input 2].Columns[IsCurrent]"
-                      cachedDataType="i4"
-                      cachedName="IsCurrent"
-                      lineageId="Package\load productDim\Derived Column.Outputs[Derived Column Output].Columns[IsCurrent]">
-                      <properties>
-                        <property
-                          containsID="true"
-                          dataType="System.Int32"
-                          description="Output column lineage ID"
-                          name="OutputColumnLineageID">#{Package\load productDim\Union All.Outputs[Union All Output 1].Columns[IsCurrent]}</property>
-                      </properties>
-                    </inputColumn>
-                    <inputColumn
-                      refId="Package\load productDim\Union All.Inputs[Union All Input 2].Columns[DC_EndDate]"
-                      cachedDataType="dbTimeStamp"
-                      cachedName="DC_EndDate"
-                      lineageId="Package\load productDim\Data Conversion Start and End Date Columns.Outputs[Data Conversion Output].Columns[DC_EndDate]">
-                      <properties>
-                        <property
-                          containsID="true"
-                          dataType="System.Int32"
-                          description="Output column lineage ID"
-                          name="OutputColumnLineageID">#{Package\load productDim\Union All.Outputs[Union All Output 1].Columns[DC_EndDate]}</property>
-                      </properties>
-                    </inputColumn>
-                    <inputColumn
                       refId="Package\load productDim\Union All.Inputs[Union All Input 2].Columns[DC_StartDate]"
                       cachedDataType="dbTimeStamp"
                       cachedName="DC_StartDate"
-                      lineageId="Package\load productDim\Data Conversion Start and End Date Columns.Outputs[Data Conversion Output].Columns[DC_StartDate]">
+                      lineageId="Package\load productDim\Derived Column 3.Outputs[Derived Column Output].Columns[DC_StartDate]">
                       <properties>
                         <property
                           containsID="true"
@@ -3259,10 +3099,23 @@ where [refTable].[CategoryID] = ?</property>
                       </properties>
                     </inputColumn>
                     <inputColumn
+                      refId="Package\load productDim\Union All.Inputs[Union All Input 2].Columns[DC_EndDate]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="DC_EndDate"
+                      lineageId="Package\load productDim\Derived Column 3.Outputs[Derived Column Output].Columns[DC_EndDate]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\load productDim\Union All.Outputs[Union All Output 1].Columns[DC_EndDate]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
                       refId="Package\load productDim\Union All.Inputs[Union All Input 2].Columns[DC_IsCurrent]"
                       cachedDataType="bool"
                       cachedName="DC_IsCurrent"
-                      lineageId="Package\load productDim\Data Conversion IsCurrent Column.Outputs[Data Conversion Output].Columns[DC_IsCurrent]">
+                      lineageId="Package\load productDim\Data Conversion iscurrent.Outputs[Data Conversion Output].Columns[DC_IsCurrent]">
                       <properties>
                         <property
                           containsID="true"
@@ -3271,14 +3124,28 @@ where [refTable].[CategoryID] = ?</property>
                           name="OutputColumnLineageID">#{Package\load productDim\Union All.Outputs[Union All Output 1].Columns[DC_IsCurrent]}</property>
                       </properties>
                     </inputColumn>
+                    <inputColumn
+                      refId="Package\load productDim\Union All.Inputs[Union All Input 2].Columns[CategoryName]"
+                      cachedDataType="wstr"
+                      cachedLength="100"
+                      cachedName="CategoryName"
+                      lineageId="Package\load productDim\Lookup CategoryName.Outputs[Lookup Match Output].Columns[CategoryName]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\load productDim\Union All.Outputs[Union All Output 1].Columns[CategoryName]}</property>
+                      </properties>
+                    </inputColumn>
                   </inputColumns>
                   <externalMetadataColumns />
                 </input>
                 <input
-                  refId="Package\load productDim\Union All.Inputs[Union All Input 3]"
+                  refId="Package\load productDim\Union All.Inputs[Union All Input 1]"
                   dangling="true"
                   hasSideEffects="true"
-                  name="Union All Input 3">
+                  name="Union All Input 1">
                   <externalMetadataColumns />
                 </input>
               </inputs>
@@ -3346,22 +3213,6 @@ where [refTable].[CategoryID] = ?</property>
                       lineageId="Package\load productDim\Union All.Outputs[Union All Output 1].Columns[CategoryName]"
                       name="CategoryName" />
                     <outputColumn
-                      refId="Package\load productDim\Union All.Outputs[Union All Output 1].Columns[StartDate]"
-                      dataType="date"
-                      lineageId="Package\load productDim\Union All.Outputs[Union All Output 1].Columns[StartDate]"
-                      name="StartDate" />
-                    <outputColumn
-                      refId="Package\load productDim\Union All.Outputs[Union All Output 1].Columns[EndDate]"
-                      dataType="wstr"
-                      length="4"
-                      lineageId="Package\load productDim\Union All.Outputs[Union All Output 1].Columns[EndDate]"
-                      name="EndDate" />
-                    <outputColumn
-                      refId="Package\load productDim\Union All.Outputs[Union All Output 1].Columns[IsCurrent]"
-                      dataType="i4"
-                      lineageId="Package\load productDim\Union All.Outputs[Union All Output 1].Columns[IsCurrent]"
-                      name="IsCurrent" />
-                    <outputColumn
                       refId="Package\load productDim\Union All.Outputs[Union All Output 1].Columns[DC_EndDate]"
                       dataType="dbTimeStamp"
                       lineageId="Package\load productDim\Union All.Outputs[Union All Output 1].Columns[DC_EndDate]"
@@ -3385,29 +3236,24 @@ where [refTable].[CategoryID] = ?</property>
           <paths>
             <path
               refId="Package\load productDim.Paths[Data Conversion Output]"
-              endId="Package\load productDim\Data Conversion IsCurrent Column.Inputs[Data Conversion Input]"
-              name="Data Conversion Output"
-              startId="Package\load productDim\Data Conversion Start and End Date Columns.Outputs[Data Conversion Output]" />
-            <path
-              refId="Package\load productDim.Paths[Data Conversion Output1]"
               endId="Package\load productDim\Slowly Changing Dimension.Inputs[Slowly Changing Dimension Input]"
               name="Data Conversion Output"
-              startId="Package\load productDim\Data Conversion IsCurrent Column.Outputs[Data Conversion Output]" />
+              startId="Package\load productDim\Data Conversion iscurrent.Outputs[Data Conversion Output]" />
             <path
               refId="Package\load productDim.Paths[Derived Column Output]"
-              endId="Package\load productDim\Data Conversion Start and End Date Columns.Inputs[Data Conversion Input]"
-              name="Derived Column Output"
-              startId="Package\load productDim\Derived Column.Outputs[Derived Column Output]" />
-            <path
-              refId="Package\load productDim.Paths[Derived Column Output1]"
               endId="Package\load productDim\OLE DB Command.Inputs[OLE DB Command Input]"
               name="Derived Column Output"
               startId="Package\load productDim\Derived Column 1.Outputs[Derived Column Output]" />
             <path
-              refId="Package\load productDim.Paths[Derived Column Output2]"
+              refId="Package\load productDim.Paths[Derived Column Output1]"
               endId="Package\load productDim\Insert Destination.Inputs[OLE DB Destination Input]"
               name="Derived Column Output"
               startId="Package\load productDim\Derived Column 2.Outputs[Derived Column Output]" />
+            <path
+              refId="Package\load productDim.Paths[Derived Column Output2]"
+              endId="Package\load productDim\Data Conversion iscurrent.Inputs[Data Conversion Input]"
+              name="Derived Column Output"
+              startId="Package\load productDim\Derived Column 3.Outputs[Derived Column Output]" />
             <path
               refId="Package\load productDim.Paths[Historical Attribute Inserts Output]"
               endId="Package\load productDim\Derived Column 1.Inputs[Derived Column Input]"
@@ -3415,22 +3261,22 @@ where [refTable].[CategoryID] = ?</property>
               startId="Package\load productDim\Slowly Changing Dimension.Outputs[Historical Attribute Inserts Output]" />
             <path
               refId="Package\load productDim.Paths[Lookup Match Output]"
-              endId="Package\load productDim\Derived Column.Inputs[Derived Column Input]"
+              endId="Package\load productDim\Derived Column 3.Inputs[Derived Column Input]"
               name="Lookup Match Output"
-              startId="Package\load productDim\Lookup.Outputs[Lookup Match Output]" />
+              startId="Package\load productDim\Lookup CategoryName.Outputs[Lookup Match Output]" />
             <path
               refId="Package\load productDim.Paths[New Output]"
-              endId="Package\load productDim\Union All.Inputs[Union All Input 1]"
+              endId="Package\load productDim\Union All.Inputs[Union All Input 2]"
               name="New Output"
               startId="Package\load productDim\Slowly Changing Dimension.Outputs[New Output]" />
             <path
               refId="Package\load productDim.Paths[OLE DB Command Output]"
-              endId="Package\load productDim\Union All.Inputs[Union All Input 2]"
+              endId="Package\load productDim\Union All.Inputs[Union All Input 3]"
               name="OLE DB Command Output"
               startId="Package\load productDim\OLE DB Command.Outputs[OLE DB Command Output]" />
             <path
               refId="Package\load productDim.Paths[OLE DB Source Output]"
-              endId="Package\load productDim\Lookup.Inputs[Lookup Input]"
+              endId="Package\load productDim\Lookup CategoryName.Inputs[Lookup Input]"
               name="OLE DB Source Output"
               startId="Package\load productDim\OLE DB Source.Outputs[OLE DB Source Output]" />
             <path
@@ -4086,13 +3932,12 @@ where [refTable].[CategoryID] = ?</property>
                   <inputColumns>
                     <inputColumn
                       refId="Package\load_DimCustomer\Data Conversion Start and End Date Columns.Inputs[Data Conversion Input].Columns[EndDate]"
-                      cachedDataType="wstr"
-                      cachedLength="4"
+                      cachedDataType="dbTimeStamp"
                       cachedName="EndDate"
                       lineageId="Package\load_DimCustomer\Derived Column.Outputs[Derived Column Output].Columns[EndDate]" />
                     <inputColumn
                       refId="Package\load_DimCustomer\Data Conversion Start and End Date Columns.Inputs[Data Conversion Input].Columns[StartDate]"
-                      cachedDataType="date"
+                      cachedDataType="dbTimeStamp"
                       cachedName="StartDate"
                       lineageId="Package\load_DimCustomer\Derived Column.Outputs[Derived Column Output].Columns[StartDate]" />
                   </inputColumns>
@@ -4242,7 +4087,7 @@ where [refTable].[CategoryID] = ?</property>
                     </outputColumn>
                     <outputColumn
                       refId="Package\load_DimCustomer\Derived Column.Outputs[Derived Column Output].Columns[StartDate]"
-                      dataType="date"
+                      dataType="dbTimeStamp"
                       errorOrTruncationOperation="Computation"
                       errorRowDisposition="FailComponent"
                       lineageId="Package\load_DimCustomer\Derived Column.Outputs[Derived Column Output].Columns[StartDate]"
@@ -4253,21 +4098,20 @@ where [refTable].[CategoryID] = ?</property>
                           containsID="true"
                           dataType="System.String"
                           description="Derived Column Expression"
-                          name="Expression">@[System::StartTime]</property>
+                          name="Expression">(DT_DBTIMESTAMP)@[System::StartTime]</property>
                         <property
                           containsID="true"
                           dataType="System.String"
                           description="Derived Column Friendly Expression"
                           expressionType="Notify"
-                          name="FriendlyExpression">@[System::StartTime]</property>
+                          name="FriendlyExpression">(DT_DBTIMESTAMP)@[System::StartTime]</property>
                       </properties>
                     </outputColumn>
                     <outputColumn
                       refId="Package\load_DimCustomer\Derived Column.Outputs[Derived Column Output].Columns[EndDate]"
-                      dataType="wstr"
+                      dataType="dbTimeStamp"
                       errorOrTruncationOperation="Computation"
                       errorRowDisposition="FailComponent"
-                      length="4"
                       lineageId="Package\load_DimCustomer\Derived Column.Outputs[Derived Column Output].Columns[EndDate]"
                       name="EndDate"
                       truncationRowDisposition="FailComponent">
@@ -4276,13 +4120,13 @@ where [refTable].[CategoryID] = ?</property>
                           containsID="true"
                           dataType="System.String"
                           description="Derived Column Expression"
-                          name="Expression">"NULL"</property>
+                          name="Expression">(DT_DBTIMESTAMP)"2099-12-31 23:59:59"</property>
                         <property
                           containsID="true"
                           dataType="System.String"
                           description="Derived Column Friendly Expression"
                           expressionType="Notify"
-                          name="FriendlyExpression">"NULL"</property>
+                          name="FriendlyExpression">(DT_DBTIMESTAMP)"2099-12-31 23:59:59"</property>
                       </properties>
                     </outputColumn>
                     <outputColumn
@@ -4583,12 +4427,6 @@ where [refTable].[CategoryID] = ?</property>
                       externalMetadataColumnId="Package\load_DimCustomer\Insert Destination.Inputs[OLE DB Destination Input].ExternalColumns[Country]"
                       lineageId="Package\load_DimCustomer\Union All.Outputs[Union All Output 1].Columns[CountryName]" />
                     <inputColumn
-                      refId="Package\load_DimCustomer\Insert Destination.Inputs[OLE DB Destination Input].Columns[StartDate]"
-                      cachedDataType="date"
-                      cachedName="StartDate"
-                      externalMetadataColumnId="Package\load_DimCustomer\Insert Destination.Inputs[OLE DB Destination Input].ExternalColumns[StartDate]"
-                      lineageId="Package\load_DimCustomer\Union All.Outputs[Union All Output 1].Columns[StartDate]" />
-                    <inputColumn
                       refId="Package\load_DimCustomer\Insert Destination.Inputs[OLE DB Destination Input].Columns[DC_EndDate]"
                       cachedDataType="dbTimeStamp"
                       cachedName="DC_EndDate"
@@ -4600,6 +4438,12 @@ where [refTable].[CategoryID] = ?</property>
                       cachedName="DC_IsCurrent"
                       externalMetadataColumnId="Package\load_DimCustomer\Insert Destination.Inputs[OLE DB Destination Input].ExternalColumns[IsCurrent]"
                       lineageId="Package\load_DimCustomer\Union All.Outputs[Union All Output 1].Columns[DC_IsCurrent]" />
+                    <inputColumn
+                      refId="Package\load_DimCustomer\Insert Destination.Inputs[OLE DB Destination Input].Columns[DC_StartDate]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="DC_StartDate"
+                      externalMetadataColumnId="Package\load_DimCustomer\Insert Destination.Inputs[OLE DB Destination Input].ExternalColumns[StartDate]"
+                      lineageId="Package\load_DimCustomer\Union All.Outputs[Union All Output 1].Columns[DC_StartDate]" />
                   </inputColumns>
                   <externalMetadataColumns
                     isUsed="True">
@@ -5673,46 +5517,6 @@ where [refTable].[CountryID] = ?</property>
                       </properties>
                     </inputColumn>
                     <inputColumn
-                      refId="Package\load_DimCustomer\Union All.Inputs[Union All Input 1].Columns[StartDate]"
-                      cachedDataType="date"
-                      cachedName="StartDate"
-                      lineageId="Package\load_DimCustomer\Derived Column.Outputs[Derived Column Output].Columns[StartDate]">
-                      <properties>
-                        <property
-                          containsID="true"
-                          dataType="System.Int32"
-                          description="Output column lineage ID"
-                          name="OutputColumnLineageID">#{Package\load_DimCustomer\Union All.Outputs[Union All Output 1].Columns[StartDate]}</property>
-                      </properties>
-                    </inputColumn>
-                    <inputColumn
-                      refId="Package\load_DimCustomer\Union All.Inputs[Union All Input 1].Columns[EndDate]"
-                      cachedDataType="wstr"
-                      cachedLength="4"
-                      cachedName="EndDate"
-                      lineageId="Package\load_DimCustomer\Derived Column.Outputs[Derived Column Output].Columns[EndDate]">
-                      <properties>
-                        <property
-                          containsID="true"
-                          dataType="System.Int32"
-                          description="Output column lineage ID"
-                          name="OutputColumnLineageID">#{Package\load_DimCustomer\Union All.Outputs[Union All Output 1].Columns[EndDate]}</property>
-                      </properties>
-                    </inputColumn>
-                    <inputColumn
-                      refId="Package\load_DimCustomer\Union All.Inputs[Union All Input 1].Columns[IsCurrent]"
-                      cachedDataType="i4"
-                      cachedName="IsCurrent"
-                      lineageId="Package\load_DimCustomer\Derived Column.Outputs[Derived Column Output].Columns[IsCurrent]">
-                      <properties>
-                        <property
-                          containsID="true"
-                          dataType="System.Int32"
-                          description="Output column lineage ID"
-                          name="OutputColumnLineageID">#{Package\load_DimCustomer\Union All.Outputs[Union All Output 1].Columns[IsCurrent]}</property>
-                      </properties>
-                    </inputColumn>
-                    <inputColumn
                       refId="Package\load_DimCustomer\Union All.Inputs[Union All Input 1].Columns[DC_EndDate]"
                       cachedDataType="dbTimeStamp"
                       cachedName="DC_EndDate"
@@ -5925,46 +5729,6 @@ where [refTable].[CountryID] = ?</property>
                       </properties>
                     </inputColumn>
                     <inputColumn
-                      refId="Package\load_DimCustomer\Union All.Inputs[Union All Input 2].Columns[StartDate]"
-                      cachedDataType="date"
-                      cachedName="StartDate"
-                      lineageId="Package\load_DimCustomer\Derived Column.Outputs[Derived Column Output].Columns[StartDate]">
-                      <properties>
-                        <property
-                          containsID="true"
-                          dataType="System.Int32"
-                          description="Output column lineage ID"
-                          name="OutputColumnLineageID">#{Package\load_DimCustomer\Union All.Outputs[Union All Output 1].Columns[StartDate]}</property>
-                      </properties>
-                    </inputColumn>
-                    <inputColumn
-                      refId="Package\load_DimCustomer\Union All.Inputs[Union All Input 2].Columns[EndDate]"
-                      cachedDataType="wstr"
-                      cachedLength="4"
-                      cachedName="EndDate"
-                      lineageId="Package\load_DimCustomer\Derived Column.Outputs[Derived Column Output].Columns[EndDate]">
-                      <properties>
-                        <property
-                          containsID="true"
-                          dataType="System.Int32"
-                          description="Output column lineage ID"
-                          name="OutputColumnLineageID">#{Package\load_DimCustomer\Union All.Outputs[Union All Output 1].Columns[EndDate]}</property>
-                      </properties>
-                    </inputColumn>
-                    <inputColumn
-                      refId="Package\load_DimCustomer\Union All.Inputs[Union All Input 2].Columns[IsCurrent]"
-                      cachedDataType="i4"
-                      cachedName="IsCurrent"
-                      lineageId="Package\load_DimCustomer\Derived Column.Outputs[Derived Column Output].Columns[IsCurrent]">
-                      <properties>
-                        <property
-                          containsID="true"
-                          dataType="System.Int32"
-                          description="Output column lineage ID"
-                          name="OutputColumnLineageID">#{Package\load_DimCustomer\Union All.Outputs[Union All Output 1].Columns[IsCurrent]}</property>
-                      </properties>
-                    </inputColumn>
-                    <inputColumn
                       refId="Package\load_DimCustomer\Union All.Inputs[Union All Input 2].Columns[DC_EndDate]"
                       cachedDataType="dbTimeStamp"
                       cachedName="DC_EndDate"
@@ -6113,22 +5877,6 @@ where [refTable].[CountryID] = ?</property>
                       lineageId="Package\load_DimCustomer\Union All.Outputs[Union All Output 1].Columns[FullName]"
                       name="FullName" />
                     <outputColumn
-                      refId="Package\load_DimCustomer\Union All.Outputs[Union All Output 1].Columns[StartDate]"
-                      dataType="date"
-                      lineageId="Package\load_DimCustomer\Union All.Outputs[Union All Output 1].Columns[StartDate]"
-                      name="StartDate" />
-                    <outputColumn
-                      refId="Package\load_DimCustomer\Union All.Outputs[Union All Output 1].Columns[EndDate]"
-                      dataType="wstr"
-                      length="4"
-                      lineageId="Package\load_DimCustomer\Union All.Outputs[Union All Output 1].Columns[EndDate]"
-                      name="EndDate" />
-                    <outputColumn
-                      refId="Package\load_DimCustomer\Union All.Outputs[Union All Output 1].Columns[IsCurrent]"
-                      dataType="i4"
-                      lineageId="Package\load_DimCustomer\Union All.Outputs[Union All Output 1].Columns[IsCurrent]"
-                      name="IsCurrent" />
-                    <outputColumn
                       refId="Package\load_DimCustomer\Union All.Outputs[Union All Output 1].Columns[DC_EndDate]"
                       dataType="dbTimeStamp"
                       lineageId="Package\load_DimCustomer\Union All.Outputs[Union All Output 1].Columns[DC_EndDate]"
@@ -6231,62 +5979,45 @@ where [refTable].[CountryID] = ?</property>
         </pipeline>
       </DTS:ObjectData>
     </DTS:Executable>
-    <DTS:Executable
-      DTS:refId="Package\load_DimDate"
-      DTS:CreationName="Microsoft.ExecuteSQLTask"
-      DTS:Description="Execute SQL Task"
-      DTS:DTSID="{825C0BCA-D93B-4DB5-AEAB-DD2AEB360052}"
-      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
-      DTS:LocaleID="-1"
-      DTS:ObjectName="load_DimDate"
-      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2022; © 2022 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
-      DTS:ThreadHint="0">
-      <DTS:Variables />
-      <DTS:ObjectData>
-        <SQLTask:SqlTaskData
-          SQLTask:Connection="{039862FD-3544-4B78-BC90-CE92C79FB598}"
-          SQLTask:SqlStatementSource="-- First clear the table if needed&#xA;TRUNCATE TABLE DimDate;&#xA;&#xA;-- Parameters - set your desired date range&#xA;DECLARE @StartDate DATE = '2018-01-01';&#xA;DECLARE @EndDate DATE = '2018-05-09';&#xA;&#xA;-- Generate dates using a recursive CTE (works in SQL Server 2008+)&#xA;WITH DateSequence AS (&#xA;    SELECT @StartDate AS FullDate&#xA;    UNION ALL&#xA;    SELECT DATEADD(DAY, 1, FullDate)&#xA;    FROM DateSequence&#xA;    WHERE DATEADD(DAY, 1, FullDate) &lt;= @EndDate&#xA;)&#xA;INSERT INTO DimDate (&#xA;    DateID, FullDate, Month, Quarter, Year&#xA;)&#xA;SELECT &#xA;    CAST(CONVERT(VARCHAR, FullDate, 112) AS INT) AS DateID,&#xA;    FullDate,&#xA;    MONTH(FullDate) AS Month,&#xA;    DATEPART(QUARTER, FullDate) AS Quarter,&#xA;    YEAR(FullDate) AS Year,&#xA;FROM DateSequence&#xA;OPTION (MAXRECURSION 32767); -- Needed for date ranges over 100 days" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
-      </DTS:ObjectData>
-    </DTS:Executable>
   </DTS:Executables>
   <DTS:PrecedenceConstraints>
     <DTS:PrecedenceConstraint
       DTS:refId="Package.PrecedenceConstraints[Constraint]"
       DTS:CreationName=""
-      DTS:DTSID="{74734327-F74F-46BB-9407-951DAD10DA96}"
+      DTS:DTSID="{51E542AF-ADFF-41B1-A2C5-E154701D3ABE}"
       DTS:From="Package\load SalesDim"
       DTS:LogicalAnd="True"
       DTS:ObjectName="Constraint"
-      DTS:To="Package\load_DimDate" />
+      DTS:To="Package\Execute SQL Task DimDate" />
     <DTS:PrecedenceConstraint
       DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
       DTS:CreationName=""
-      DTS:DTSID="{64E497AD-CF82-46B0-85FA-B2F9DB8713AF}"
-      DTS:From="Package\load_DimCustomer"
+      DTS:DTSID="{6C82C907-F901-474A-8CAB-8DF6D3D38D7D}"
+      DTS:From="Package\Execute SQL Task DimDate"
       DTS:LogicalAnd="True"
       DTS:ObjectName="Constraint 1"
-      DTS:To="Package\load DimCategory" />
+      DTS:To="Package\load_DimCustomer" />
     <DTS:PrecedenceConstraint
       DTS:refId="Package.PrecedenceConstraints[Constraint 2]"
       DTS:CreationName=""
-      DTS:DTSID="{548A1E6D-D596-44F3-AC17-E2A143C07026}"
+      DTS:DTSID="{2DB5A086-0BB3-4A3D-B8F5-E9AE43071062}"
       DTS:From="Package\load DimCategory"
       DTS:LogicalAnd="True"
       DTS:ObjectName="Constraint 2"
-      DTS:To="Package\load DimEmployee" />
+      DTS:To="Package\load DimCities" />
     <DTS:PrecedenceConstraint
       DTS:refId="Package.PrecedenceConstraints[Constraint 3]"
       DTS:CreationName=""
-      DTS:DTSID="{FDE1B420-0758-421F-AC17-C3E48C730CB0}"
-      DTS:From="Package\load DimEmployee"
+      DTS:DTSID="{A6BB50CC-A678-4181-9DF2-91A9C12431B5}"
+      DTS:From="Package\load DimCities"
       DTS:LogicalAnd="True"
       DTS:ObjectName="Constraint 3"
-      DTS:To="Package\load DimCities" />
+      DTS:To="Package\load DimEmployee" />
     <DTS:PrecedenceConstraint
       DTS:refId="Package.PrecedenceConstraints[Constraint 4]"
       DTS:CreationName=""
-      DTS:DTSID="{277E0901-7713-4ADB-809C-AA74194931A7}"
-      DTS:From="Package\load DimCities"
+      DTS:DTSID="{5B216085-0744-431D-A0E4-298DD0251608}"
+      DTS:From="Package\load DimEmployee"
       DTS:LogicalAnd="True"
       DTS:ObjectName="Constraint 4"
       DTS:To="Package\load productDim" />
@@ -6318,11 +6049,11 @@ where [refTable].[CountryID] = ?</property>
         <NodeLayout
           Size="145.6,41.6"
           Id="Package\load DimCities"
-          TopLeft="287.857143469915,377.764705551227" />
+          TopLeft="289.285714901528,292.117646802771" />
         <NodeLayout
           Size="165.6,41.6"
           Id="Package\load DimEmployee"
-          TopLeft="280.714286311853,301.294117382963" />
+          TopLeft="274.285714869597,363.99999968094" />
         <NodeLayout
           Size="156,41.6"
           Id="Package\load productDim"
@@ -6334,121 +6065,7 @@ where [refTable].[CountryID] = ?</property>
         <NodeLayout
           Size="167.2,41.6"
           Id="Package\load_DimCustomer"
-          TopLeft="277.857143448628,133.058823412781" />
-        <NodeLayout
-          Size="144.8,41.6"
-          Id="Package\load_DimDate"
-          TopLeft="282.67857203032,599.705881990312" />
-        <EdgeLayout
-          Id="Package.PrecedenceConstraints[Constraint 1]"
-          TopLeft="361.68571488024,174.658823412781">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="0,50.9294116836003"
-              Start="0,0"
-              End="0,43.4294116836003">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,43.4294116836003" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <EdgeLayout
-          Id="Package.PrecedenceConstraints[Constraint 2]"
-          TopLeft="362.714286311853,267.188235096381">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="0,34.105882286582"
-              Start="0,0"
-              End="0,26.605882286582">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,26.605882286582" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <EdgeLayout
-          Id="Package.PrecedenceConstraints[Constraint 3]"
-          TopLeft="362.085714890884,342.894117382963">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="0,34.8705881682646"
-              Start="0,0"
-              End="0,27.3705881682646">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,27.3705881682646" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <EdgeLayout
-          Id="Package.PrecedenceConstraints[Constraint 4]"
-          TopLeft="359.685714890884,419.364705551227">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="0,27.988235233121"
-              Start="0,0"
-              End="0,20.488235233121">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,20.488235233121" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <EdgeLayout
-          Id="Package.PrecedenceConstraints[Constraint]"
-          TopLeft="355.167857744796,555.705881921942">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="0,44.0000000683699"
-              Start="0,0"
-              End="0,36.5000000683699">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,36.5000000683699" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
+          TopLeft="271.428572006372,677.799999578385" />
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 5]"
           TopLeft="356.985714885562,488.952940784348">
@@ -6463,6 +6080,120 @@ where [refTable].[CountryID] = ?</property>
                   Capacity="5">
                   <mssgle:LineSegment
                     End="0,17.652941137594" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 2]"
+          TopLeft="362.00000060669,267.188235096381">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,24.9294117063896"
+              Start="0,0"
+              End="0,17.4294117063896">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,17.4294117063896" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 3]"
+          TopLeft="359.585714885562,333.717646802771">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,30.2823528781695"
+              Start="0,0"
+              End="0,22.7823528781695">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,22.7823528781695" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 4]"
+          TopLeft="357.900000590725,405.59999968094">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,41.7529411034079"
+              Start="0,0"
+              End="0,34.2529411034079">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,34.2529411034079" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="206.4,41.6"
+          Id="Package\Execute SQL Task DimDate"
+          TopLeft="247.142857668959,596.905882218212" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="352.800000564115,555.705881921942">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,41.20000029627"
+              Start="0,0"
+              End="0,33.70000029627">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,33.70000029627" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="352.685714837666,638.505882218212">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,39.2941173601733"
+              Start="0,0"
+              End="0,31.7941173601733">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,31.7941173601733" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -6636,7 +6367,7 @@ where [refTable].[CountryID] = ?</property>
       <Property>
         <Name>OverwriteParamsSQLProp</Name>
         <Value
-          type="q2:string">false</Value>
+          type="q2:boolean">false</Value>
       </Property>
       <Property>
         <Name>UsedTableName</Name>
@@ -6646,7 +6377,7 @@ where [refTable].[CountryID] = ?</property>
       <Property>
         <Name>TableInfoObjectType</Name>
         <Value
-          type="q4:string">0</Value>
+          type="q4:int">0</Value>
       </Property>
       <Property>
         <Name>DataSourceViewID</Name>
@@ -6801,94 +6532,38 @@ where [refTable].[CountryID] = ?</property>
         <NodeLayout
           Size="162.4,41.6"
           Id="Package\load productDim\Derived Column 2"
-          TopLeft="617.699993026257,288.900009402632" />
+          TopLeft="617.699993026257,329.100008910894" />
         <NodeLayout
           Size="149.6,41.6"
           Id="Package\load productDim\OLE DB Source"
-          TopLeft="156.1,5.49999999999995" />
+          TopLeft="156.1,45.6999995082616" />
         <NodeLayout
           Size="164.8,41.6"
           Id="Package\load productDim\OLE DB Command"
-          TopLeft="96.4999986439944,292.700006318091" />
+          TopLeft="96.4999986439944,332.900005826353" />
         <NodeLayout
           Size="208,41.6"
           Id="Package\load productDim\Slowly Changing Dimension"
-          TopLeft="206.899998807907,96.5000062137841" />
+          TopLeft="206.899998807907,136.700005722046" />
         <NodeLayout
-          Size="292,41.6"
-          Id="Package\load productDim\Data Conversion Start and End Date Columns"
-          TopLeft="661.89999140203,16.3000043809413" />
-        <NodeLayout
-          Size="112.8,41.6"
-          Id="Package\load productDim\Lookup"
-          TopLeft="329.49999769032,10.1000014454126" />
-        <NodeLayout
-          Size="152.8,41.6"
-          Id="Package\load productDim\Derived Column"
-          TopLeft="472.499995261431,10.5000026673078" />
+          Size="184.8,41.6"
+          Id="Package\load productDim\Lookup CategoryName"
+          TopLeft="329.49999769032,50.3000009536743" />
         <NodeLayout
           Size="162.4,41.6"
           Id="Package\load productDim\Insert Destination"
-          TopLeft="811.299990463257,287.100010192394" />
+          TopLeft="811.299990463257,327.300009700656" />
         <NodeLayout
           Size="162.4,41.6"
           Id="Package\load productDim\Derived Column 1"
-          TopLeft="89.6999987781049,220.100005885958" />
+          TopLeft="89.6999987781049,260.30000539422" />
         <NodeLayout
           Size="120,41.6"
           Id="Package\load productDim\Union All"
-          TopLeft="413.899996379018,293.300007823109" />
-        <NodeLayout
-          Size="241.6,41.6"
-          Id="Package\load productDim\Data Conversion IsCurrent Column"
-          TopLeft="683.099991461635,91.9000047683715" />
-        <EdgeLayout
-          Id="Package\load productDim.Paths[Data Conversion Output]"
-          TopLeft="805.899991431832,57.9000043809414">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="0,34.0000003874301"
-              Start="0,0"
-              End="0,26.5000003874301">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,26.5000003874301" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <EdgeLayout
-          Id="Package\load productDim.Paths[Union All Output 1]"
-          TopLeft="533.899996379018,311.90000861287">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="83.7999966472388,0"
-              Start="0,0"
-              End="76.2999966472388,0">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="76.2999966472388,0" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
+          TopLeft="413.899996379018,333.500007331371" />
         <EdgeLayout
           Id="Package\load productDim.Paths[OLE DB Source Output]"
-          TopLeft="305.7,28.6000007227063">
+          TopLeft="305.7,68.800000230968">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -6909,90 +6584,8 @@ where [refTable].[CountryID] = ?</property>
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\load productDim.Paths[OLE DB Command Output]"
-          TopLeft="261.299998643994,313.8000070706">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="152.599997735024,0"
-              Start="0,0"
-              End="145.099997735024,0">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="145.099997735024,0" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <EdgeLayout
-          Id="Package\load productDim.Paths[New Output]"
-          TopLeft="344.23333214124,138.100006213784">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="129.666664237777,155.200001609324"
-              Start="0,0"
-              End="129.666664237777,147.700001609324">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,58.7908403457572" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,58.7908403457572"
-                    Point2="0,62.7908403457572"
-                    Point3="4,62.7908403457572" />
-                  <mssgle:LineSegment
-                    End="125.666664237777,62.7908403457572" />
-                  <mssgle:CubicBezierSegment
-                    Point1="125.666664237777,62.7908403457572"
-                    Point2="129.666664237777,62.7908403457572"
-                    Point3="129.666664237777,66.7908403457572" />
-                  <mssgle:LineSegment
-                    End="129.666664237777,147.700001609324" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="37.7419454001387,67.7908403457572,54.1827734375,11.43359375"
-              RelativePosition="Any" />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <EdgeLayout
-          Id="Package\load productDim.Paths[Lookup Match Output]"
-          TopLeft="442.29999769032,31.1000020563602">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="30.1999975711108,0"
-              Start="0,0"
-              End="22.6999975711108,0">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="22.6999975711108,0" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="-36.8413879331946,5,96.3827734375,11.609375"
-              RelativePosition="Any" />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <EdgeLayout
           Id="Package\load productDim.Paths[Historical Attribute Inserts Output]"
-          TopLeft="277.566665474574,138.100006213784">
+          TopLeft="277.566665474574,178.300005722046">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -7027,8 +6620,8 @@ where [refTable].[CountryID] = ?</property>
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\load productDim.Paths[Derived Column Output2]"
-          TopLeft="780.099993026257,308.800009797513">
+          Id="Package\load productDim.Paths[Derived Column Output1]"
+          TopLeft="780.099993026257,349.000009305775">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -7049,8 +6642,8 @@ where [refTable].[CountryID] = ?</property>
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\load productDim.Paths[Derived Column Output1]"
-          TopLeft="174.89999871105,261.700005885958">
+          Id="Package\load productDim.Paths[Derived Column Output]"
+          TopLeft="174.89999871105,301.90000539422">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -7070,20 +6663,40 @@ where [refTable].[CountryID] = ?</property>
             <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
+        <NodeLayout
+          Size="162.4,41.6"
+          Id="Package\load productDim\Derived Column 3"
+          TopLeft="568.99999152124,54.1999992996455" />
+        <NodeLayout
+          Size="200,41.6"
+          Id="Package\load productDim\Data Conversion iscurrent"
+          TopLeft="490.399993801117,137.99999794364" />
         <EdgeLayout
-          Id="Package\load productDim.Paths[Derived Column Output]"
-          TopLeft="625.299995261431,34.2000035241246">
+          Id="Package\load productDim.Paths[Derived Column Output2]"
+          TopLeft="650.19999152124,95.7999992996455">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="36.5999961405993,0"
+              EndConnector="-59.7999977201226,42.1999986439944"
               Start="0,0"
-              End="29.0999961405993,0">
+              End="-59.7999977201226,34.6999986439944">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="29.0999961405993,0" />
+                    End="0,17.0999993219972" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,17.0999993219972"
+                    Point2="0,21.0999993219972"
+                    Point3="-4,21.0999993219972" />
+                  <mssgle:LineSegment
+                    End="-55.7999977201226,21.0999993219972" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-55.7999977201226,21.0999993219972"
+                    Point2="-59.7999977201226,21.0999993219972"
+                    Point3="-59.7999977201226,25.0999993219972" />
+                  <mssgle:LineSegment
+                    End="-59.7999977201226,34.6999986439944" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -7093,25 +6706,129 @@ where [refTable].[CountryID] = ?</property>
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\load productDim.Paths[Data Conversion Output1]"
-          TopLeft="683.099991461635,115.000005491078">
+          Id="Package\load productDim.Paths[Data Conversion Output]"
+          TopLeft="490.399993801117,158.150001832843">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="-268.199992653728,0"
+              EndConnector="-75.4999949932101,0"
               Start="0,0"
-              End="-260.699992653728,0">
+              End="-67.9999949932101,0">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="-260.699992653728,0" />
+                    End="-67.9999949932101,0" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
             <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\load productDim.Paths[Union All Output 1]"
+          TopLeft="533.899996379018,352.100008121132">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="83.7999966472388,0"
+              Start="0,0"
+              End="76.2999966472388,0">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="76.2999966472388,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\load productDim.Paths[OLE DB Command Output]"
+          TopLeft="261.299998643994,354.000006578862">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="152.599997735024,0"
+              Start="0,0"
+              End="145.099997735024,0">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="145.099997735024,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\load productDim.Paths[New Output]"
+          TopLeft="344.23333214124,178.300005722046">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="129.666664237778,155.200001609325"
+              Start="0,0"
+              End="129.666664237778,147.700001609325">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,58.7908403457574" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,58.7908403457574"
+                    Point2="0,62.7908403457574"
+                    Point3="4,62.7908403457574" />
+                  <mssgle:LineSegment
+                    End="125.666664237778,62.7908403457574" />
+                  <mssgle:CubicBezierSegment
+                    Point1="125.666664237778,62.7908403457574"
+                    Point2="129.666664237778,62.7908403457574"
+                    Point3="129.666664237778,66.7908403457574" />
+                  <mssgle:LineSegment
+                    End="129.666664237778,147.700001609325" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="37.7419454001388,67.7908403457574,54.1827734375,11.43359375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\load productDim.Paths[Lookup Match Output]"
+          TopLeft="514.29999769032,73.0500001266599">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="54.6999938309197,0"
+              Start="0,0"
+              End="47.1999938309197,0">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="47.1999938309197,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-24.5913898032902,5,96.3827734375,11.609375"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
       </GraphLayout>
@@ -7213,12 +6930,12 @@ where [refTable].[CountryID] = ?</property>
     </Properties>
   </PipelineComponentMetadata>
   <PipelineComponentMetadata
-    design-time-name="Package\load productDim\Lookup">
+    design-time-name="Package\load productDim\Lookup CategoryName">
     <Properties>
       <Property>
         <Name>OverwriteParamsSQLProp</Name>
         <Value
-          type="q2:string">false</Value>
+          type="q2:boolean">false</Value>
       </Property>
       <Property>
         <Name>UsedTableName</Name>
@@ -7232,6 +6949,19 @@ where [refTable].[CountryID] = ?</property>
       </Property>
       <Property>
         <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\load productDim\Insert Destination">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
       </Property>
     </Properties>
   </PipelineComponentMetadata>
@@ -7620,7 +7350,7 @@ where [refTable].[CountryID] = ?</property>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
             <mssgm:EdgeLabel
-              BoundingBox="116.69648967817,37.7047893443885,54.1827734375,11.43359375"
+              BoundingBox="116.696489678169,37.7047893443885,54.1827734375,11.43359375"
               RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
@@ -7689,6 +7419,19 @@ where [refTable].[CountryID] = ?</property>
   </TaskHost>
   <PipelineComponentMetadata
     design-time-name="Package\load_DimCustomer\OLE DB Source">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\load_DimCustomer\Insert Destination">
     <Properties>
       <Property>
         <Name>DataSourceViewID</Name>
